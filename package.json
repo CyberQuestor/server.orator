@@ -1,6 +1,6 @@
 {
   "name": "server.orator",
-  "version": "1.1.1.0",
+  "version": "0.0.1",
   "description": "Participate in the quest of a lifetime. Discover environment-aware peers, sensors and services to level-up your KP (knowledge points). Interact with contexts and help friends with their ideas/ problems.",
   "main": "bot.js",
   "scripts": {
