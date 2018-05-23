@@ -1,8 +1,5 @@
-// Starter kit adopted from Botkit
-
-var env = require('node-env-file');
-env(__dirname + '/.env');
-
+// Set all your environment variables
+var environment = require(__dirname + '/utilities/interpreter/environment.js');
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
