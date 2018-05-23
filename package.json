@@ -25,7 +25,7 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/howdyai/botkit-starter-web.git"
+    "url": "git@repo.haystack.one:server.haystack/server.orator.git"
   },
   "bugs": {
     "url": "https://app.asana.com/0/309882682860726/board"
