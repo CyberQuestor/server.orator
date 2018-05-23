@@ -2,6 +2,8 @@ module.exports = function(controller) {
 
   if (controller.storage && controller.storage.history) {
 
+    console.log("Exposing history collective");
+
     // expose history as an endpoint
     controller.webserver.post('/botkit/history', function(req, res) {
       if (req.body.user) {
@@ -41,7 +43,7 @@ module.exports = function(controller) {
     });
 
   } else {
-    console.log("Configure a MONGO_URI to enable message history");
+    console.log("Configure message history to record all conversation sometime");
     controller.webserver.post('/botkit/history', function(req, res) {
       res.json({success:true, history: []});
     });
