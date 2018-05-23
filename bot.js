@@ -11,9 +11,8 @@ var bot_options = {
     replyWithTyping: true,
 };
 
-// Use a mongo database if specified, otherwise store in a JSON file local to the app.
-// Mongo is automatically configured when deploying to Heroku
-if (process.env.MONGO_URI) {
+// Use a redis database if specified, otherwise store in a JSON file local to the app.
+if (process.env.haystack_orator_redis_activate) {
   // create a custom db access method
   var db = require(__dirname + '/components/database.js')({});
   bot_options.storage = db;

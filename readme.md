@@ -4,10 +4,12 @@ Here is how you setup environment to develop and run this project.
 - Either use `apt get` or `homebrew` to install following
     - `Nodejs` (8.0 LTA recommended)
     - `npm` package manager (6.0.1 recommended)
+    - `redis-server` (3.2 and above recommended)
 - Run following commands if it is first time setup;
     - `npm install restify --save` (one time, not during setup)
     - `npm install -g localtunnel` (during one time setup also, use lt --port 3050)
     - `npm install command-line-args --save`
+    - `npm install botkit-storage-redis --save`
 - If it is pulled from `git`, following should suffice;
     - `npm install`
     - `npm install -g localtunnel`
