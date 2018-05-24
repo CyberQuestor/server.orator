@@ -29,3 +29,5 @@ Some commands that will help you maintain project.
     - Use `npm outdated` to see which modules have newer versions
     - Use `npm update` (without a package name) to update all modules
     - `npm update botkit` to update botkit to latest version
+    - Include `--save-dev` if you want to save the newer version numbers to your package.json
+    - `npm uninstall mongoose` to remove packages
