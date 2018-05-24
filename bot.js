@@ -26,8 +26,8 @@ var controller = Botkit.socketbot(bot_options);
 // Set up an Express-powered webserver to expose oauth and webhook endpoints
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
-// Set up restify-powered server to expose Haystack facing endpoints
-var msbotController = require(__dirname + '/components/msbot.js')();
+// Set up bot framework for extended reach
+var msbotController = require(__dirname + '/components/botframework.js')();
 
 // Set up restify-powered server to expose Haystack facing endpoints
 var restServer = require(__dirname + '/components/trumpet.js')(msbotController);
@@ -53,13 +53,13 @@ controller.openSocketServer(controller.httpserver);
 controller.startTicking();
 
 
-var normalizedPath = require("path").join(__dirname, "skills/web");
+var normalizedPath = require("path").join(__dirname, "controllers/skills/web");
 require("fs").readdirSync(normalizedPath).forEach(function(file) {
-  require("./skills/web/" + file)(controller);
+  require("./controllers/skills/web/" + file)(controller);
 });
-var normalizedPath = require("path").join(__dirname, "skills/botframework");
+var normalizedPath = require("path").join(__dirname, "controllers/skills/botframework");
 require("fs").readdirSync(normalizedPath).forEach(function(file) {
-  require("./skills/botframework/" + file)(msbotController.controller);
+  require("./controllers/skills/botframework/" + file)(msbotController.controller);
 });
 
 console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))

@@ -43,7 +43,7 @@ module.exports = function(controller) {
     });
 
   } else {
-    console.log("Configure message history to record all conversation sometime");
+    console.log("info: ** Message history disabled. Configure message history to record all conversation sometime.");
     controller.webserver.post('/botkit/history', function(req, res) {
       res.json({success:true, history: []});
     });
