@@ -1,9 +1,9 @@
 {
-  "name": "Botkit Starter Kit",
-  "description": "A starting point for building custom Slack applications",
-  "repository": "https://github.com/howdyai/botkit-starter-slack",
+  "name": "Haystack Starter Kit",
+  "description": "A starting point ",
+  "repository": "git@repo.haystack.one:server.haystack/server.orator.git",
   "keywords": ["node", "bots", "slack","botkit"],
-  "website": "https://studio.botkit.ai/",
+  "website": "https://haystack.one/",
   "success_url":"/",
   "addons":[
     {
