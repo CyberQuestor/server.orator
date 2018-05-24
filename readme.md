@@ -21,3 +21,11 @@ Here is how you setup environment to develop and run this project.
     - [http://localhost:3005](http://localhost:3005) for web-plugin
     - [http://localhost:8089](http://localhost:8089) for trumpet
     - [http://yourdomain.localtunnel.me/botframework/receive](http://yourdomain.localtunnel.me/botframework/receive) or [http://localhost:3050/botframework/receive](http://localhost:3050/botframework/receive) for MS bot framework
+
+# Utilities
+Some commands that will help you maintain project.
+
+- Maintain packages
+    - Use `npm outdated` to see which modules have newer versions
+    - Use `npm update` (without a package name) to update all modules
+    - `npm update botkit` to update botkit to latest version
