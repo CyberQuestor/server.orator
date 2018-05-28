@@ -24,9 +24,21 @@ module.exports = function() {
        process.exit();
    }
 
-   var controller = msBotkit.botframeworkbot({
-    debug: true
-  });
+   var bot_options = {
+       replyWithTyping: true,
+       debug: true
+   };
+
+   // Use a redis database if specified, otherwise store in a JSON file local to the app.
+   if (process.env.haystack_orator_redis_activate) {
+     // create a custom db access method
+     var db = require(__dirname + '/database.js')({namespace: process.env.haystack_orator_botframework_redis_namespace});
+     bot_options.storage = db;
+   } else {
+       bot_options.json_file_store = __dirname + '/../.data/db/'; // store user data in a simple JSON format
+   }
+
+   var controller = msBotkit.botframeworkbot(bot_options);
 
   var bot = controller.spawn({
     //appId: process.env.msbot_app_id,
