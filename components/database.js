@@ -2,12 +2,16 @@
 // history is not available, use separate middleware to handle that
 
 module.exports = function(config) {
+  config = config || {};
+  config.namespace = config.namespace || 'haystack:bot:store';
+  config.methods = config.methods || ['contexts', 'outcomes'];
+
   redisConfig = {
     host: process.env.haystack_orator_redis_host,
     port: process.env.haystack_orator_redis_port,
     db: process.env.haystack_orator_redis_db,
-    namespace: 'haystack:bot:store',
-    methods: ['contexts', 'outcomes']
+    namespace: config.namespace,
+    methods: config.methods
   };
 
   return redisStorage = redisStorage = require('botkit-storage-redis')(redisConfig);
