@@ -2,13 +2,14 @@
 
 module.exports = function(controller) {
 
-  if (!process.env.studio_token) {
+  //if (controller.storage && controller.storage.user && controller.storage.user.linked_to_haystack) {
     function conductOnboarding(bot, message) {
-      //console.log("show the message");
+      //console.log("at onboarding");
       //console.log(message);
+
       bot.reply(message, { type: "typing" });
       bot.startConversation(message, function(err, convo) {
-        convo.say('Hello! I am a Haystack bot.');
+        convo.say('Hello! I am a Haystack One Bot (HOB).');
         convo.say({
           attachments: [
               {
@@ -45,39 +46,7 @@ module.exports = function(controller) {
       });
     }
 
-    function unhandledMessage(bot, message) {
-      bot.reply(message, { type: "typing" });
-      bot.startConversation(message, function(err, convo) {
-        convo.say('I do not know how to respond to that message yet.');
-        convo.say({
-          attachments: [
-              {
-                  contentType: 'application/vnd.microsoft.card.hero',
-                  content: {
-                      title: "But I am constantly learning as we speak.",
-                      subtitle: "Check out what I am about.",
-                      buttons: [
-                          {
-                              type: "imBack",
-                              title: "What are you?",
-                              value: "what are you?"
-                          },
-                          {
-                              type: "imBack",
-                              title: "I am ready to sign-up",
-                              value: "lets start using!"
-                          }
-                      ]
-                  }
-              }
-          ]
-        });
-
-      });
-
-    }
-
-    controller.hears(['hi', 'hello', 'hey'],'message_received', function(bot, message) {
+    controller.hears(['hi', 'hello', 'hey'],'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
       conductOnboarding(bot, message);
     });
 
@@ -231,9 +200,80 @@ module.exports = function(controller) {
 
     });
 
+    function unhandledMessage(bot, message) {
+      bot.reply(message, { type: "typing" });
+
+      if(message.haystack_data && message.haystack_data.linked_to_haystack) {
+        bot.startConversation(message, function(err, convo) {
+          convo.say('I do not know how to respond to that message yet.');
+          convo.say({
+            attachments: [
+                {
+                    contentType: 'application/vnd.microsoft.card.hero',
+                    content: {
+                        title: "But I am constantly learning as we speak.",
+                        subtitle: "Check out what I am about.",
+                        buttons: [
+                            {
+                                type: "imBack",
+                                title: "What are you?",
+                                value: "what are you?"
+                            },
+                            {
+                                type: "imBack",
+                                title: "I am ready to sign-up",
+                                value: "lets start using!"
+                            }
+                        ]
+                    }
+                }
+            ]
+          });
+
+        });
+      } else {
+        bot.startConversation(message, function(err, convo) {
+          //convo.say('You have to link your account to talk more with me.');
+          convo.say({
+            attachments: [
+                {
+                    contentType: 'application/vnd.microsoft.card.hero',
+                    content: {
+                        title: "Link to Haystack.One",
+                        subtitle: "You have to link your account to talk more with me.",
+                        buttons: [
+                            {
+                              type: "openUrl",
+                              title: "Sign in",
+                              value: "https://haystack.one/haystack/sign_in"
+                            }
+                        ]
+                    }
+                }
+            ]
+          });
+        });
+      }
+
+    }
+
+    // this example does a simple string match instead of using regular expressions
+    function custom_haystack_link_hear_middleware(patterns, message) {
+      console.log("this is hearing - haystack data");
+      console.log(message.haystack_data);
+
+      console.log("this is hearing - haystack promise data");
+      console.log(message.haystack_data_promise);
+
+      if(message.haystack_data && message.haystack_data.linked_to_haystack) {
+        return true;
+      }
+        return false;
+    }
+
     controller.on('hello', conductOnboarding);
     controller.on('welcome_back', conductOnboarding);
     controller.on('message_received', unhandledMessage);
-    // if (!process.env.studio_token) ends here
-  }
+    // if (controller.storage && controller.storage.user && controller.storage.user.linked_to_haystack) ends here
+  //}
 }
