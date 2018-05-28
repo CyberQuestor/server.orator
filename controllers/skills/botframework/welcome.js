@@ -262,9 +262,6 @@ module.exports = function(controller) {
       console.log("this is hearing - haystack data");
       console.log(message.haystack_data);
 
-      console.log("this is hearing - haystack promise data");
-      console.log(message.haystack_data_promise);
-
       if(message.haystack_data && message.haystack_data.linked_to_haystack) {
         return true;
       }
