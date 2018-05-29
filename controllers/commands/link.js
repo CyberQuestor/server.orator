@@ -2,25 +2,23 @@ const command_request = require('request');
 
 // This function will be run whenever link command is accessed
 module.exports = function linkCommand (msbotController, bot, message, arguments) {
-	// Bot code here
+	// Bot code here - check command structure
   let primaryEmail = arguments[0];
-  primaryEmail = primaryEmail.toLowerCase();
-
   let withWord = arguments[1];
-  withWord = withWord.toLowerCase();
-
   let otpWord = arguments[2];
-  otpWord = otpWord.toLowerCase();
-
   let activationCode = arguments[3];
 
-  if (!primaryEmail || !withWord || !otpWord
-    || primaryEmail === 'help' || withWord !== 'with' || otpWord !== 'otp') {
-    bot.reply(message, {
-      type: "typing"
-    });
+  if (!primaryEmail || !withWord || !otpWord || !activationCode) {
+    respondUsage(bot, message);
+    return;
+  }
 
-    bot.say('Usage: !link [primary_email] with OTP [generated_otp]');
+  primaryEmail = primaryEmail.toLowerCase();
+  withWord = withWord.toLowerCase();
+  otpWord = otpWord.toLowerCase();
+
+  if (primaryEmail === 'help' || withWord !== 'with' || otpWord !== 'otp') {
+    respondUsage(bot, message);
 		return;
 	}
 
@@ -73,6 +71,16 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 
         msbotController.storage.users.save(user, function(err, id) {});
       });
+    }
+
+    // responds with usage text
+    function respondUsage(bot, message) {
+      console.log('something wrong with command');
+      bot.reply(message, {
+        type: "typing"
+      });
+
+      bot.reply(message, 'Usage: !link [primary_email] with OTP [generated_otp]');
     }
 
 };
