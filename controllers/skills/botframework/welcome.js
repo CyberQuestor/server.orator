@@ -8,6 +8,10 @@ module.exports = function(controller) {
   controller.on('message_received', unhandledMessage);
 
   function conductOnboarding(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+    
     bot.startConversation(message, function(err, convo) {
       convo.say('Hello! I am a Haystack One Bot (HOB).');
       convo.say({
@@ -46,6 +50,10 @@ module.exports = function(controller) {
   });
 
   controller.hears(['lets start using', 'sign up', 'try'], 'message_received', function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
     bot.startConversation(message, function(err, convo) {
       // convo.say('Time to: \n\n[Sign in](https://haystack.one/haystack/sign_in)\n\n[Join us](https://haystack.one/haystack/sign_up)');
       convo.say({
@@ -73,6 +81,10 @@ module.exports = function(controller) {
   });
 
   controller.hears('people', 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
     bot.startConversation(message, function(err, convo) {
       //convo.say('You can check out people theme over [here!](https://haystack.one/haystack/home/solutions#people)');
       convo.say({
@@ -93,6 +105,10 @@ module.exports = function(controller) {
   });
 
   controller.hears('legal', 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
     bot.startConversation(message, function(err, convo) {
       // convo.say('You can check out legal theme over [here!](https://haystack.one/haystack/home/solutions#legal)');
       convo.say({
@@ -113,6 +129,10 @@ module.exports = function(controller) {
   });
 
   controller.hears('wealth', 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
     bot.startConversation(message, function(err, convo) {
       // convo.say('You can check out wealth theme over [here!](https://haystack.one/haystack/home/solutions#wealth)');
       convo.say({
@@ -135,6 +155,10 @@ module.exports = function(controller) {
 
   // set up a menu thread which other threads can point at.
   controller.hears(['what are you'], 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
     bot.startConversation(message, function(err, convo) {
 
       convo.say('I am a platform that helps you achieve [trusted curation using the wisdom of your networks](https://haystack.one/)');
@@ -225,10 +249,6 @@ module.exports = function(controller) {
 
   // this middleware just ensures that none of the messages are serviced unless we have a link to haystack data
   function custom_haystack_link_hear_middleware(patterns, message) {
-    bot.reply(message, {
-      type: "typing"
-    });
-
     if (message.haystack_data && message.haystack_data.linked_to_haystack) {
       return true;
     }
