@@ -1,17 +1,17 @@
 /* This module kicks in if no Botkit Studio token has been provided */
 
-module.exports = function(controller) {
+module.exports = function welcome(controller) {
 
   // function hoist
-  controller.on('hello', conductOnboarding);
-  controller.on('welcome_back', conductOnboarding);
+  //controller.on('hello', conductOnboarding);
+  //controller.on('welcome_back', conductOnboarding);
   controller.on('message_received', unhandledMessage);
 
   function conductOnboarding(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
-    
+
     bot.startConversation(message, function(err, convo) {
       convo.say('Hello! I am a Haystack One Bot (HOB).');
       convo.say({
@@ -45,11 +45,36 @@ module.exports = function(controller) {
     });
   }
 
-  controller.hears(['hi', 'hello', 'hey'], 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+  // Handler for any command starting with a !
+  function onCommand(bot, message) {
+  	let msg = message.text;
+  	console.log('matched command', msg)
+
+  	let match = msg.match(/!(\w+)(.*)/);
+  	let command = match[1],
+  		args = match[2] || '';
+  	try {
+  		let module = require('/../commands/' + command + '.js');
+  		module(controller, bot, message, args.trim().split(/\s+/));
+  	} catch(e) {
+  		console.log(e);
+  		bot.say('I wish that was a command!');
+  	}
+  }
+
+  // matches all commands here
+  // Detect a `!` prefixed message which acts as command trigger.
+  controller.hears(['/!\\w+/i'], ['message_received', 'direct_message'], custom_haystack_link_command_hear_middleware, function(bot, message) {
+    console.log('this is a command');
+    onCommand(bot, message);
+  });
+
+  controller.hears(['hi', 'hello', 'hey'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
+    console.log('this is a message');
     conductOnboarding(bot, message);
   });
 
-  controller.hears(['lets start using', 'sign up', 'try'], 'message_received', function(bot, message) {
+  controller.hears(['lets start using', 'sign up', 'try'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
@@ -80,7 +105,7 @@ module.exports = function(controller) {
     });
   });
 
-  controller.hears('people', 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+  controller.hears('people', ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
@@ -104,7 +129,7 @@ module.exports = function(controller) {
     });
   });
 
-  controller.hears('legal', 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+  controller.hears('legal', ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
@@ -128,7 +153,7 @@ module.exports = function(controller) {
     });
   });
 
-  controller.hears('wealth', 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+  controller.hears('wealth', ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
@@ -154,7 +179,7 @@ module.exports = function(controller) {
   });
 
   // set up a menu thread which other threads can point at.
-  controller.hears(['what are you'], 'message_received', custom_haystack_link_hear_middleware, function(bot, message) {
+  controller.hears(['what are you'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
@@ -253,6 +278,20 @@ module.exports = function(controller) {
       return true;
     }
     return false;
+  }
+
+  // this middleware just ensures that none of the commands are serviced unless
+  // we have a link to haystack data or it is a link command
+  function custom_haystack_link_command_hear_middleware(patterns, message) {
+    let msg = message.text;
+  	let match = msg.match(/!(\w+)(.*)/);
+  	let command = match[1];
+    command = command.toLowerCase();
+
+    if (command === 'link') {
+      return true;
+    }
+    return custom_haystack_link_hear_middleware(patterns, message);
   }
 
 }
