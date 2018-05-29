@@ -11,7 +11,9 @@ module.exports = function injectUserDataMiddleware (msbotController, msBot) {
     console.log("msbotController.middleware.receive.use triggered");
     // check if user is already linked
     message.haystack_data = {};
-    await injectPromisedAsyncUserData(message);
+    //await injectPromisedAsyncUserData(message);
+
+    await injectPlainUserData(message);
     console.log("injected user in to message now");
     // do not let this be asynchronously written; it might not be available for consumption at message in-time
     next();
@@ -67,10 +69,32 @@ module.exports = function injectUserDataMiddleware (msbotController, msBot) {
   }
 
   /**
+   * Resolve user presence without promise but await
+   */
+  async function injectPlainAwaitUserData(message) {
+    msbotController.storage.users.get(message.user, function(err, user) {
+      console.log("callback user : ");
+      console.log(user);
+      if (!user) {
+        console.log("user is non existent apparently!");
+        user = {
+          id: message.user,
+          linked_to_haystack: true
+        };
+        //msbotController.storage.users.save(user, function(err, id) {});
+      } else {
+        console.log("user exists!");
+      }
+      message.haystack_data = user;
+      console.log(message.haystack_data);
+    });
+  }
+
+  /**
    * Resolve user presence without promise
    */
-  function injectPlainUserData(message) {
-    var user = msbotController.storage.users.get(message.user, function(err, user) {
+  async function injectPlainUserData(message) {
+    var user = await msbotController.storage.users.get(message.user, function(err, user) {
       console.log("callback user : ");
       console.log(user);
     });
@@ -82,7 +106,7 @@ module.exports = function injectUserDataMiddleware (msbotController, msBot) {
         id: message.user,
         linked_to_haystack: false
       };
-      msbotController.storage.users.save(user, function(err, id) {});
+      //msbotController.storage.users.save(user, function(err, id) {});
     } else {
       console.log("user exists!");
     }
