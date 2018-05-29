@@ -1,20 +1,17 @@
 const util = require('util');
-const {
-  promisify
-} = require('util');
 
 // inject user data middleware
 module.exports = function injectUserDataMiddleware (msbotController, msBot) {
   // function hoist
   msbotController.middleware.receive.use(injectUserData);
 
-  const getAsync = promisify(msbotController.storage.users.get);
+  const getAsync = util.promisify(msbotController.storage.users.get);
 
   async function injectUserData(bot, message, next) {
     console.log("msbotController.middleware.receive.use triggered");
     // check if user is already linked
     message.haystack_data = {};
-    injectPromisedAsyncUserData(message);
+    await injectPromisedAsyncUserData(message);
     console.log("injected user in to message now");
     // do not let this be asynchronously written; it might not be available for consumption at message in-time
     next();
@@ -24,9 +21,21 @@ module.exports = function injectUserDataMiddleware (msbotController, msBot) {
    * Resolve user presence through promise async
    */
   async function injectPromisedAsyncUserData(message) {
-    const res = await getAsync(message.user);
+    const matchedUser = await getAsync(message.user);
     console.log("async in progress");
-    console.log(res);
+    if (!matchedUser) {
+      console.log("user is non existent apparently!");
+      matchedUser = {
+        id: message.user,
+        linked_to_haystack: false
+      };
+      msbotController.storage.users.save(matchedUser, function(err, id) {});
+    } else {
+      console.log("user exists!");
+    }
+    message.haystack_data = matchedUser;
+    console.log("injection status is: ");
+    console.log(message.haystack_data);
   }
 
   /**

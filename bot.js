@@ -1,5 +1,8 @@
 // Set all your environment variables
 var environment = require(__dirname + '/utilities/interpreter/environment.js');
+var unhandled = require(__dirname + '/utilities/interpreter/unhandled.js');
+
+
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
