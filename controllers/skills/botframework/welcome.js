@@ -2,6 +2,11 @@
 
 module.exports = function(controller) {
 
+  // function hoist
+  controller.on('hello', conductOnboarding);
+  controller.on('welcome_back', conductOnboarding);
+  controller.on('message_received', unhandledMessage);
+
   //if (controller.storage && controller.storage.user && controller.storage.user.linked_to_haystack) {
     function conductOnboarding(bot, message) {
       //console.log("at onboarding");
@@ -267,10 +272,6 @@ module.exports = function(controller) {
       }
         return false;
     }
-
-    controller.on('hello', conductOnboarding);
-    controller.on('welcome_back', conductOnboarding);
-    controller.on('message_received', unhandledMessage);
     // if (controller.storage && controller.storage.user && controller.storage.user.linked_to_haystack) ends here
   //}
 }
