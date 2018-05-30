@@ -1,0 +1,6 @@
+dev:
+  script:
+    # installs node modules and builds project 
+    - npm install
+    - npm build
+
