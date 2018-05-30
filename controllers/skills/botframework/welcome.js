@@ -49,6 +49,8 @@ module.exports = function welcome(controller) {
   function onCommand(bot, message) {
   	let msg = message.text;
   	console.log('matched command', msg)
+    // ensure that commands do not carry any tags
+    msg = msg.replace(/<(?:.|\n)*?>/gm, '');
 
   	let match = msg.match(/!(\w+)(.*)/);
   	let command = match[1],

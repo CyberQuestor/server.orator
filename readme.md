@@ -35,3 +35,7 @@ Some commands that will help you maintain project.
       - Use `npm install --save-dev babel-cli babel-preset-env`
       - Use `npm install --save-dev flow-bin`
       - Add appropriate configuration files
+  - Convenience through node restarts and tunnel
+      - Use `npm install -g nodemon`
+      - Use `npm install -g localtunnel`
+      - Start as `nodemon --inspect . -ls yourdomainhere` with debugger attachments

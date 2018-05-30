@@ -22,36 +22,49 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 		return;
 	}
 
-  let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + primaryEmail + 'alias';
-  let postHeaders = {'content-type' : 'application/json'}
+  let aliasType = 'SkypeBotLink';
+  if(message.address && message.address.channelId) {
+    switch(message.address.channelId){
+      case 'skype':
+      aliasType = 'SkypeBotLink';
+      break;
+      default:
+      aliasType = 'SkypeBotLink';
+      break;
+    }
+  }
+
+  let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + primaryEmail + '/alias';
+  let postHeaders = {'Content-Type' : 'application/json'}
   let postBody = {
     'activationTracker': {
-      'requestCreatedBy': message.address.channelId,
+      'requestedBy': message.address.channelId,
       'activationCode': activationCode
     },
     'userAlias': message.address.user.id,
-    'prefix': message.address.user
+    'prefix': JSON.stringify(message.address),
+    'type': aliasType
   }
 
     command_request.post({
-      headers: postHeaders,
   		url: postURL,
-      body: postBody
+      method: 'POST',
+      json: postBody
   	}, function postComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
-        bot.say('Unable to complete linking. Make sure you copied the right OTP and it is not expired.');
+        bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP link phrase and it is not expired.');
     		return;
       }
   		try {
         // user profile
-  			var haystackUserData = JSON.parse(body);
-        bot.say('Welcome' + haystackUserData.firstName + '!');
-  			bot.say('Link has been established successfully. You will now receive notifications on this channel.');
+        // body is already object, no need for JSON.parse(body);
+        bot.reply(message, 'Welcome' + body.firstName + '!');
+  			bot.reply(message, 'Link has been established successfully. You will now receive notifications on this channel.');
 
         // time to update redis records
-        injectUserData(message, haystackUserData);
+        injectUserData(message, body);
   		} catch(e) {
-  			bot.say('Unable to complete linking. Make sure you copied the right OTP and it is not expired.');
+  			bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP and it is not expired.');
   		}
   	});
 
