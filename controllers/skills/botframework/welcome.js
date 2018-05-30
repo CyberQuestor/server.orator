@@ -48,7 +48,6 @@ module.exports = function welcome(controller) {
   // Handler for any command starting with a !
   function onCommand(bot, message) {
   	let msg = message.text;
-  	console.log('matched command', msg)
     // ensure that commands do not carry any tags
     msg = msg.replace(/<(?:.|\n)*?>/gm, '');
 
@@ -56,11 +55,10 @@ module.exports = function welcome(controller) {
   	let command = match[1],
   		args = match[2] || '';
   	try {
-  		let module = require(__dirname + '/../../commands/' + command + '.js');
+  		let module = require(__dirname + '/../../commands/' + command + '_command.js');
   		module(controller, bot, message, args.trim().split(/\s+/));
   	} catch(e) {
-  		console.log(e);
-  		bot.say('I wish that was a command!');
+  		bot.reply(message, 'I wish that was a command! Try again.');
   	}
   }
 
@@ -69,12 +67,10 @@ module.exports = function welcome(controller) {
   //------/!\w+/i
   // keep this at top so that commands are looked for first
   controller.hears(/!\w+/i, ['message_received', 'direct_message'], custom_haystack_link_command_hear_middleware, function(bot, message) {
-    console.log('this is a command indeed');
     onCommand(bot, message);
   });
 
   controller.hears(['hi', 'hello', 'hey'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
-    console.log('this is a message');
     conductOnboarding(bot, message);
   });
 
@@ -225,7 +221,6 @@ module.exports = function welcome(controller) {
   });
 
   function unhandledMessage(bot, message) {
-    console.log('jumped to unhandled message');
     bot.reply(message, {
       type: "typing"
     });
@@ -279,36 +274,21 @@ module.exports = function welcome(controller) {
 
   // this middleware just ensures that none of the messages are serviced unless we have a link to haystack data
   function custom_haystack_link_hear_middleware(patterns, message) {
-    console.log('link_hear_middleware is hit!');
-    console.log(message.text);
-    console.log(patterns);
     if (message.haystack_data && message.haystack_data.linked_to_haystack) {
-      for (var p = 0; p < patterns.length; p++) {
-        if (patterns[p] == message.text) {
-            return true;
-        }
-      }
+      // use default regex for now
+      return controller.hears_regexp(patterns, message);
     }
-
-    console.log('no text match yet');
     return false;
   }
 
   // this middleware just ensures that none of the commands are serviced unless we have a link to haystack data
   // it services link command always
   function custom_haystack_link_command_hear_middleware(patterns, message) {
-    console.log('command_hear_middleware is hit!');
-    console.log(message.text);
-    console.log(patterns);
-
     let msg = message.text;
     let originalMatch = msg.match(patterns[0]);
-    console.log('originalMatch is');
-    console.log(originalMatch);
 
     if(!originalMatch) {
       // no match
-      console.log('no command match so skipped');
       return false;
     }
 
@@ -316,15 +296,9 @@ module.exports = function welcome(controller) {
   	let command = match[1];
     command = command.toLowerCase();
 
-    console.log("found command as");
-    console.log(command);
-
     if (command === 'link' || (message.haystack_data && message.haystack_data.linked_to_haystack)) {
       return true;
     }
-
-
-    console.log('not the right command without haystack link so skipped');
     return false;
   }
 

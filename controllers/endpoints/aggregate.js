@@ -1,5 +1,5 @@
 
-module.exports = function(msbotController, restServer) {
+module.exports = function(msbotControllerComplex, restServer) {
   restServer.get('/hello/:name', respond);
   restServer.head('/hello/:name', respond);
 
@@ -44,8 +44,8 @@ module.exports = function(msbotController, restServer) {
         };
 
         console.log("trumpet says");
-        //console.log(msbotController.bot);
-        msbotController.bot.say(
+        //console.log(msbotControllerComplex.bot);
+        msbotControllerComplex.bot.say(
           {
             text: message,
             address: address2

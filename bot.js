@@ -30,10 +30,10 @@ var controller = Botkit.socketbot(bot_options);
 var webserver = require(__dirname + '/components/express_webserver.js')(controller);
 
 // Set up bot framework for extended reach
-var msbotController = require(__dirname + '/components/botframework.js')();
+var msbotControllerComplex = require(__dirname + '/components/botframework.js')();
 
 // Set up restify-powered server to expose Haystack facing endpoints
-var restServer = require(__dirname + '/components/trumpet.js')(msbotController);
+var restServer = require(__dirname + '/components/trumpet.js')(msbotControllerComplex);
 
 
 
@@ -43,7 +43,7 @@ var restServer = require(__dirname + '/components/trumpet.js')(msbotController);
 // Load in a plugin that defines the bot's identity
 require(__dirname + '/components/plugin_identity.js')(controller);
 // Load in a plugin that defines the bot's identity
-require(__dirname + '/components/plugin_identity.js')(msbotController.controller);
+require(__dirname + '/components/plugin_identity.js')(msbotControllerComplex.controller);
 
 // enable advanced botkit studio metrics
 // and capture the metrics API to use with the identity plugin!
@@ -62,7 +62,7 @@ require("fs").readdirSync(normalizedPath).forEach(function(file) {
 });
 var normalizedPath = require("path").join(__dirname, "controllers/skills/botframework");
 require("fs").readdirSync(normalizedPath).forEach(function(file) {
-  require("./controllers/skills/botframework/" + file)(msbotController.controller);
+  require("./controllers/skills/botframework/" + file)(msbotControllerComplex.controller);
 });
 
 console.log('I AM ONLINE! COME TALK TO ME: http://localhost:' + (process.env.PORT || 3000))

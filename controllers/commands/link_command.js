@@ -29,10 +29,19 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
       aliasType = 'SkypeBotLink';
       break;
       default:
-      aliasType = 'SkypeBotLink';
+      aliasType = '';
       break;
     }
   }
+
+  if(!aliasType) {
+    respondUnsupported(bot, message);
+    return;
+  }
+
+  let storagePrefix = {};
+  storagePrefix.address = message.address;
+  storagePrefix.user=message.user;
 
   let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + primaryEmail + '/alias';
   let postHeaders = {'Content-Type' : 'application/json'}
@@ -41,8 +50,8 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
       'requestedBy': message.address.channelId,
       'activationCode': activationCode
     },
-    'userAlias': message.address.user.id,
-    'prefix': JSON.stringify(message.address),
+    'userAlias': message.user,
+    'prefix': JSON.stringify(storagePrefix),
     'type': aliasType
   }
 
@@ -78,8 +87,8 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
             linked_to_haystack: true
           };
         } else {
-          user.linked_to_haystack = true,
-          user.haystack_id = haystackUserData.userId
+          user.linked_to_haystack = true;
+          user.haystack_id = haystackUserData.userId;
         }
 
         msbotController.storage.users.save(user, function(err, id) {});
@@ -88,12 +97,20 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 
     // responds with usage text
     function respondUsage(bot, message) {
-      console.log('something wrong with command');
       bot.reply(message, {
         type: "typing"
       });
 
       bot.reply(message, 'Usage: !link [primary_email] with OTP [generated_otp]');
+    }
+
+    // responds with usage text
+    function respondUnsupported(bot, message) {
+      bot.reply(message, {
+        type: "typing"
+      });
+
+      bot.reply(message, 'This channel is not yet supported.');
     }
 
 };

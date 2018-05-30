@@ -5,7 +5,7 @@
 var restify = require('restify');
 
 
-module.exports = function(msbotController) {
+module.exports = function(msbotControllerComplex) {
   /**
    * Initialize Server
    */
@@ -21,7 +21,7 @@ module.exports = function(msbotController) {
   /**
    * Bundled Plugins (http://restify.com/#bundled-plugins)
    */
-  restServer.use(restify.plugins.jsonBodyParser({ mapParams: true }));
+  //restServer.use(restify.plugins.jsonBodyParser({ mapParams: true }));
   restServer.use(restify.plugins.acceptParser(restServer.acceptable));
   restServer.use(restify.plugins.queryParser());
   restServer.use(restify.plugins.bodyParser());
@@ -30,7 +30,7 @@ module.exports = function(msbotController) {
 
   var normalizedPath = require("path").join(__dirname, "/../controllers/endpoints");
   require("fs").readdirSync(normalizedPath).forEach(function(file) {
-    require("./../controllers/endpoints/" + file)(msbotController, restServer);
+    require("./../controllers/endpoints/" + file)(msbotControllerComplex, restServer);
   });
 
   return restServer;

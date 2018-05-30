@@ -1,4 +1,4 @@
-const iudm_util = require('util');
+const middleware_util = require('util');
 
 // inject user data middleware
 module.exports = function injectUserDataMiddleware (msbotController, msBot) {
@@ -17,7 +17,7 @@ module.exports = function injectUserDataMiddleware (msbotController, msBot) {
    * Resolve user presence through promise
    */
   async function injectPromisedUserData(message) {
-    let userCheck = iudm_util.promisify(msbotController.storage.users.get);
+    let userCheck = middleware_util.promisify(msbotController.storage.users.get);
     await userCheck(message.user).then((user) => {
       if (!user) {
         user = {
