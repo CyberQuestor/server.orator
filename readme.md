@@ -31,3 +31,7 @@ Some commands that will help you maintain project.
     - `npm update botkit` to update botkit to latest version
     - Include `--save-dev` if you want to save the newer version numbers to your package.json
     - `npm uninstall mongoose` to remove packages
+  - Convenience through static type checker and ES2015 JS compiler
+      - Use `npm install --save-dev babel-cli babel-preset-env`
+      - Use `npm install --save-dev flow-bin`
+      - Add appropriate configuration files

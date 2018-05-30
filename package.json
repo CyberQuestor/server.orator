@@ -4,7 +4,8 @@
   "description": "Participate in the quest of a lifetime. Discover environment-aware peers, sensors and services to level-up your KP (knowledge points). Interact with contexts and help friends with their ideas/ problems.",
   "main": "bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "node bot.js",
+    "flow": "flow"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -22,13 +23,22 @@
     "restify": "^7.2.0",
     "wordfilter": "^0.2.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.73.0"
+  },
   "repository": {
     "type": "git",
     "url": "git@repo.haystack.one:server.haystack/server.orator.git"
   },
   "bugs": {
     "url": "https://app.asana.com/0/309882682860726/board"
+  },
+  "babel": {
+    "presets": [
+      "flow"
+    ]
   },
   "homepage": "https://haystack.one",
   "keywords": [
