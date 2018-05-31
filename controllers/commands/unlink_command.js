@@ -23,7 +23,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
     respondNotLinked(bot, message);
   }
 
-  let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/alias/' + message.address.user.id;
+  let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/alias/' + message.user;
 
     command_request.delete({
   		url: postURL,
@@ -34,14 +34,19 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
     		return;
       }
   		try {
+        // this will be handled by haystack
         let unlinkModule = require(__dirname + '/../providers/unlink_provider.js');
-        unlinkModule(msbotController, bot, message.address);
+        let storagePrefix = {};
+        storagePrefix.address = message.address;
+        storagePrefix.user=message.user;
+
+        unlinkModule(msbotController, bot, storagePrefix);
   		} catch(e) {
   			respondUnableToLink(bot, message);
   		}
   	});
 
-    // add user record in to DB
+    // get user record from DB
     function getHaystackUserId(message) {
       if(message.haystack_data) {
         return message.haystack_data.haystack_id;
