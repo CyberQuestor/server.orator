@@ -1,14 +1,13 @@
 
 module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
-  let userId = address.user.id;
-  let userName = address.user.name;
+
   // time to remove it
   var dejectedUser = dejectUserData(storagePrefix);
 
   // now say a few words
   bot.say(
     {
-      text: "We are sad to see you leave! Your account is now unlinked with Haystack.One",
+      text: "I am sad to see you leave! Your account is now unlinked with Haystack.One",
       address: storagePrefix.address
     }
   );
