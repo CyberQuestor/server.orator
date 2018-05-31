@@ -15,7 +15,7 @@ var bot_options = {
 };
 
 // Use a redis database if specified, otherwise store in a JSON file local to the app.
-if (process.env.haystack_orator_redis_activate) {
+if (process.env.haystack_orator_redis_activate && process.env.haystack_orator_redis_activate !== 'false') {
   // create a custom db access method
   var db = require(__dirname + '/components/database.js')({});
   bot_options.storage = db;
