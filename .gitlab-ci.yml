@@ -1,6 +1,5 @@
 dev:
   script:
-    # installs node modules and builds project 
+    # installs node modules and builds project
     - npm install
-    - node bot.js
-
+    - node build
