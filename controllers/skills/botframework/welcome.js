@@ -13,7 +13,7 @@ module.exports = function welcome(controller) {
     });
 
     bot.startConversation(message, function(err, convo) {
-      convo.say('Hello! I am a Haystack One Bot (HOB).');
+      convo.say('Hello! I am a collective of Haystack.One Sentient Bots (you can call me HOBS).');
       convo.say({
         attachments: [{
           contentType: 'image/png',
