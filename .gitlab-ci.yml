@@ -2,4 +2,4 @@ dev:
   script:
     # installs node modules and builds project
     - npm install
-    - node build
+    - npm build
