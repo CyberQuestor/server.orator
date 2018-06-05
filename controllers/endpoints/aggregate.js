@@ -1,3 +1,4 @@
+const endpoint_exec = require('child_process').exec;
 
 module.exports = function(msbotControllerComplex, restServer) {
   restServer.get('/hello/:name', respond);
@@ -5,6 +6,17 @@ module.exports = function(msbotControllerComplex, restServer) {
 
   restServer.get('/echo/:name', function (req, res, next) {
     res.send(req.params);
+    return next();
+  });
+
+  restServer.get('/decode', function (req, res, next) {
+    let compileit = 'java -cp ~/work/NewWorld/code/server.utilities/target/server.utilities-1.1.1.0.jar com.hs.haystack.secretkeeper.Gringotts -d "]>s{iy*f11zmdh~\\\\" /var/lib/haystack/kok/db';
+
+    endpoint_exec(compileit, function(error, stdout, stderr) {
+      res.send(stdout);
+    });
+
+
     return next();
   });
 
