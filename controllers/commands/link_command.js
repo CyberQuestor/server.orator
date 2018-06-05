@@ -43,8 +43,10 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
   storagePrefix.address = message.address;
   storagePrefix.user=message.user;
 
-  let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + primaryEmail + '/alias';
-  let postHeaders = {'Content-Type' : 'application/json'}
+  let postURL = process.env.haystack_application_url + '/oauth2/otp';
+  let postHeaders = headers: {
+        'Content-Type': 'multipart/form-data'
+    };
   let postBody = {
     'activationTracker': {
       'requestedBy': message.address.channelId,
@@ -55,45 +57,34 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
     'type': aliasType
   }
 
+  let postFormData = {
+    'userName': primaryEmail,
+    'otp': activationCode,
+    'alias': message.user,
+    'channel': aliasType,
+    'prefix': JSON.stringify(storagePrefix)
+  };
+
     command_request.post({
   		url: postURL,
+      headers: postHeaders,
       method: 'POST',
-      json: postBody
+      formData: postFormData
   	}, function postComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
         bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP link phrase and it is not expired.');
     		return;
       }
   		try {
-        // user profile
+        // user toke
         // body is already object, no need for JSON.parse(body);
-        bot.reply(message, 'Welcome' + body.firstName + '!');
-  			bot.reply(message, 'Link has been established successfully. You will now receive notifications on this channel.');
 
-        // time to update redis records
-        injectUserData(message, body);
+        // valid token available but consumer should ideally notify user
+
   		} catch(e) {
   			bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP and it is not expired.');
   		}
   	});
-
-    // add user record in to DB
-    function injectUserData(message, haystackUserData) {
-      var userRecord = msbotController.storage.users.get(message.user, function fetchUser(error, user){
-        if (!user) {
-          user = {
-            id: message.user,
-            haystack_id: haystackUserData.userId,
-            linked_to_haystack: true
-          };
-        } else {
-          user.linked_to_haystack = true;
-          user.haystack_id = haystackUserData.userId;
-        }
-
-        msbotController.storage.users.save(user, function(err, id) {});
-      });
-    }
 
     // responds with usage text
     function respondUsage(bot, message) {
