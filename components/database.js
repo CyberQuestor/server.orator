@@ -15,7 +15,7 @@ module.exports = function(config) {
   };
 
   if(process.env.redsec) {
-    redisConfig.password = process.env.redsec.toString().trim();;
+    redisConfig.password = process.env.redsec;
   }
 
   return redisStorage = require('botkit-storage-redis')(redisConfig);

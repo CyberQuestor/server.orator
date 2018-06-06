@@ -16,7 +16,7 @@ let secret = global_exec_sync(compileIt).toString();
 if(secret) {
   let splicedSecret = secret.split(separator);
   if(splicedSecret && splicedSecret.length > 0) {
-    process.env['redsec'] = splicedSecret[1];
+    process.env['redsec'] = splicedSecret[1].toString().trim();
   }
 
 }
