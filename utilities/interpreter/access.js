@@ -17,25 +17,4 @@ module.exports = function access_database () {
 
   //await prepare_access();
   let secret = global_exec_sync(compileIt).toString();
-  console.log('child process completed as ...');
-  console.log(secret);
-
-  /*global_exec_sync(compileIt, function unravel(error, stdout, stderr) {
-    console.log('child process completed as ...');
-    console.log(stdout);
-  });*/
-
-  /*async function prepare_access() {
-    let accessCheck = global_util.promisify(global_exec_sync);
-
-    await accessCheck(compileIt).then((stdout, stderr) => {
-      console.log('child process completed as ...');
-      console.log(stdout);
-    }).catch((error) => {
-      console.log('child process encountered error as ...');
-      console.log(error);
-    });
-
-    //global_exec(compileIt, function unravel(error, stdout, stderr) {});
-  }*/
 }
