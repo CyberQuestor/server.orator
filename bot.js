@@ -1,6 +1,7 @@
 // Set all your environment variables
 var environment = require(__dirname + '/utilities/interpreter/environment.js');
 var unhandled = require(__dirname + '/utilities/interpreter/unhandled.js');
+const access = require(__dirname + '/utilities/interpreter/access.js')();
 
 
 
