@@ -6,7 +6,7 @@ module.exports = function(config) {
   config.namespace = config.namespace || 'haystack:bot:store';
   config.methods = config.methods || ['contexts', 'outcomes'];
 
-  redisConfig = {
+  let redisConfig = {
     host: process.env.haystack_orator_redis_host,
     port: process.env.haystack_orator_redis_port,
     db: process.env.haystack_orator_redis_db,
@@ -14,5 +14,9 @@ module.exports = function(config) {
     methods: config.methods
   };
 
-  return redisStorage = redisStorage = require('botkit-storage-redis')(redisConfig);
+  if(process.env.redsec) {
+    redisConfig.password = process.env.redsec.toString().trim();;
+  }
+
+  return redisStorage = require('botkit-storage-redis')(redisConfig);
 }
