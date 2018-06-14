@@ -44,21 +44,13 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
   storagePrefix.user=message.user;
 
   let postURL = process.env.haystack_application_url + '/oauth2/otp';
-  let postHeaders = headers: {
-        'Content-Type': 'multipart/form-data'
+  let postHeaders = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded'
     };
-  let postBody = {
-    'activationTracker': {
-      'requestedBy': message.address.channelId,
-      'activationCode': activationCode
-    },
-    'userAlias': message.user,
-    'prefix': JSON.stringify(storagePrefix),
-    'type': aliasType
-  }
 
   let postFormData = {
-    'userName': primaryEmail,
+    'username': primaryEmail,
     'otp': activationCode,
     'alias': message.user,
     'channel': aliasType,
@@ -69,7 +61,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
   		url: postURL,
       headers: postHeaders,
       method: 'POST',
-      formData: postFormData
+      form: postFormData
   	}, function postComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
         bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP link phrase and it is not expired.');
@@ -80,6 +72,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
         // body is already object, no need for JSON.parse(body);
 
         // valid token available but consumer should ideally notify user
+        bot.reply(message, 'Excellent!');
 
   		} catch(e) {
   			bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP and it is not expired.');
