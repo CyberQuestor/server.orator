@@ -5,30 +5,33 @@ module.exports = function linkProvider(msbotController, bot, storageComplex) {
 
   let myName = storageComplex.user.firstName;
 
+  // extracting prefixe
+  let extractedPrefix = JSON.parse(storageComplex.alias.prefix);
+
   // time to remove it
-  var injectedUser = injectUserData(storageComplex);
+  var injectedUser = injectUserData(storageComplex, extractedPrefix);
 
   // now say a few words
   bot.say(
     {
       text: 'Welcome ' + myName + ' !',
-      address: storageComplex.alias.prefix.address
+      address: extractedPrefix.address
     }
   );
 
   bot.say(
     {
       text: 'Link has been established successfully. You will now receive notifications on this channel.',
-      address: storageComplex.alias.prefix.address
+      address: extractedPrefix.address
     }
   );
 
   // add user record in to DB
-  function injectUserData(storageComplex) {
-    var userRecord = msbotController.storage.users.get(storageComplex.alias.prefix.user, function fetchUser(error, user){
+  function injectUserData(storageComplex, extractedPrefix) {
+    var userRecord = msbotController.storage.users.get(extractedPrefix.user, function fetchUser(error, user){
       if (!user) {
         user = {
-          id: storageComplex.alias.prefix.user,
+          id: extractedPrefix.user,
           haystack_id: storageComplex.user.userId,
           haystack_user_data: storageComplex.user,
           linked_to_haystack: true
@@ -36,7 +39,7 @@ module.exports = function linkProvider(msbotController, bot, storageComplex) {
       } else {
         user.linked_to_haystack = true;
         user.haystack_id = storageComplex.user.userId;
-        haystack_user_data = storageComplex.user;
+        user.haystack_user_data = storageComplex.user;
       }
 
       msbotController.storage.users.save(user, function(err, id) {});
