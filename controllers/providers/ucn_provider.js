@@ -8,6 +8,9 @@ module.exports = function userConnectNotificationProvider(msbotController, bot, 
   let dialogSubtitle = 'Would you like to connect?';
   let postBackText = '!connect with ' + friendsAlias;
 
+  // extracting prefix
+  let extractedPrefix = JSON.parse(storageComplex.prefix);
+
   // now say a few words
   bot.say(
     {
@@ -23,7 +26,7 @@ module.exports = function userConnectNotificationProvider(msbotController, bot, 
           }]
         }
       }],
-      address: storageComplex.address
+      address: extractedPrefix.address
     }
   );
 }
