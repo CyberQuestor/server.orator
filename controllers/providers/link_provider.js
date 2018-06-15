@@ -5,7 +5,7 @@ module.exports = function linkProvider(msbotController, bot, storageComplex) {
 
   let myName = storageComplex.user.firstName;
 
-  // extracting prefixe
+  // extracting prefix
   let extractedPrefix = JSON.parse(storageComplex.alias.prefix);
 
   // time to remove it
@@ -33,13 +33,13 @@ module.exports = function linkProvider(msbotController, bot, storageComplex) {
         user = {
           id: extractedPrefix.user,
           haystack_id: storageComplex.user.userId,
-          haystack_user_data: storageComplex.user,
           linked_to_haystack: true
         };
       } else {
         user.linked_to_haystack = true;
         user.haystack_id = storageComplex.user.userId;
-        user.haystack_user_data = storageComplex.user;
+        // why store something that's not used/ accessed when needed
+        //user.haystack_user_data = storageComplex.user;
       }
 
       msbotController.storage.users.save(user, function(err, id) {});
