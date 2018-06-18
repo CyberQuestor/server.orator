@@ -45,6 +45,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
   let haystackUserId = getHaystackUserId(message);
   if(!haystackUserId) {
     respondNotLinked(bot, message);
+    return;
   }
 
   let possibleFriends = [];
@@ -54,10 +55,22 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
 
   let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/mynetwork';
   let postBody = JSON.stringify(possibleFriends);
+  let bearer_token = getBearer(message);
+
+  if(!bearer_token) {
+    respondNotLinked(bot, message);
+    return;
+  }
+
+  let postHeaders = {
+      'Accept': 'application/json',
+      'Authorization': bearer_token
+    };
 
     command_request.post({
   		url: postURL,
       method: 'POST',
+      headers: postHeaders,
       json: possibleFriends
   	}, function postComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
@@ -115,6 +128,13 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
       });
 
       bot.reply(message, 'It appears that you are not linked yet. Visit Haystack.One to link to this channel.');
+    }
+
+    function getBearer(message){
+      let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
+      let result = request_cache_module.get(message.user);
+      request_cache_module.quit();
+      return result;
     }
 
 };
