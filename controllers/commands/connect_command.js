@@ -53,39 +53,49 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
   friendToAdd.primaryEmail = friendsAlias;
   possibleFriends.push(friendToAdd);
 
-  let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/mynetwork';
-  let postBody = JSON.stringify(possibleFriends);
-  let bearer_token = getBearer(message);
+  getBearer(message, postConnect);
 
-  if(!bearer_token) {
-    respondNotLinked(bot, message);
-    return;
-  }
+  function postConnect(err, result) {
+    if(err) {
+      console.log(err);
+      respondNotLinked(bot, message);
+      return;
+    }
 
-  let postHeaders = {
-      'Accept': 'application/json',
-      'Authorization': bearer_token
-    };
+    if(!result) {
+      respondNotLinked(bot, message);
+      return;
+    }
+
+    let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/mynetwork';
+    let postBody = JSON.stringify(possibleFriends);
+    let postBearer = 'Bearer ' + result;
+
+    let postHeaders = {
+        'Accept': 'application/json',
+        'Authorization': postBearer
+      };
 
     command_request.post({
-  		url: postURL,
+      url: postURL,
       method: 'POST',
       headers: postHeaders,
       json: possibleFriends
-  	}, function postComplete(error, response, body) {
-  		if (error || response.statusCode !== 200) {
+    }, function postComplete(error, response, body) {
+      if (error || response.statusCode !== 200) {
         respondUnableToConnect(bot, message);
-    		return;
+        return;
       }
-  		try {
+      try {
         // user profile
         // body is already object, no need for JSON.parse(body);
-  			bot.reply(message, 'You are now connected with' + friendsAlias + 'at Haystack.One');
+        bot.reply(message, 'You are now connected with ' + friendsAlias + ' at Haystack.One');
 
-  		} catch(e) {
-  			respondUnableToConnect(bot, message);
-  		}
-  	});
+      } catch(e) {
+        respondUnableToConnect(bot, message);
+      }
+    });
+  }
 
     // responds with not linked text
     function respondUnableToConnect(bot, message) {
@@ -130,11 +140,10 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
       bot.reply(message, 'It appears that you are not linked yet. Visit Haystack.One to link to this channel.');
     }
 
-    function getBearer(message){
+    function getBearer(message, cb){
       let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
-      let result = request_cache_module.get(message.user);
+      request_cache_module.get(message.user.toLowerCase(), cb);
       request_cache_module.quit();
-      return result;
     }
 
 };

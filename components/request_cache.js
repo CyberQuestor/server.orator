@@ -37,18 +37,16 @@ module.exports = function request_cache(config) {
  * @returns {{get: get, save: save, remove: remove}}
  */
 function getStorageObject(client) {
-  const storage_util = require('util');
+  const {promisify} = require('util');
+  const getAsync = promisify(client.get).bind(client);
 
   return {
-          get: async function retrieve(id) {
+          get: async function retrieve(id, cb) {
             if(!id) {
-              err = new Error('The given key must be valid');
-              return err;
+              return cb(new Error('The given key must be valid'), null);
             }
 
-            let result = await getRecord (id);
-
-            return result;
+            await getRecord(id, cb);
           },
           save: function persist(key, value, cb) {
               if (!key) {
@@ -60,23 +58,15 @@ function getStorageObject(client) {
           remove: function eliminate(id, cb) {
               client.del([id], cb);
           },
+
           quit: function cutAndRun() {
               client.quit();
           }
         };
 
-  async function getRecord(id) {
-    let result = null;
-    let userCheck = storage_util.promisify(client.get);
+    async function getRecord(id, cb) {
+      const res = await getAsync(id);
+      cb(null, res);
+    }
 
-    await userCheck(id).then((record) => {
-      if(record != null) {
-        result = record;
-      }
-    }).catch((error) => {
-      console.log(error);
-    });
-
-    return result;
-  }
 }
