@@ -41,12 +41,17 @@ function getStorageObject(client) {
   const getAsync = promisify(client.get).bind(client);
 
   return {
-          get: async function retrieve(id, cb) {
+          get: function retrieve(id, cb) {
             if(!id) {
               return cb(new Error('The given key must be valid'), null);
             }
 
-            await getRecord(id, cb);
+            return getAsync(id).then(function(res) {
+                cb(null, res); // => 'bar'
+            }).catch((error) => {
+              console.log(error);
+              return cb(new Error('Unable to find record'), null);
+            });
           },
           save: function persist(key, value, cb) {
               if (!key) {
@@ -63,10 +68,4 @@ function getStorageObject(client) {
               client.quit();
           }
         };
-
-    async function getRecord(id, cb) {
-      const res = await getAsync(id);
-      cb(null, res);
-    }
-
 }
