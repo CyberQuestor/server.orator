@@ -9,6 +9,11 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
   // add purged user record in to DB
   function dejectUserData(storagePrefix) {
     var userRecord = msbotController.storage.users.get(storagePrefix.user, function fetchUser(error, user){
+      if(error) {
+        sayAFewNotSoPartingWords(storagePrefix);
+        return;
+      }
+
       if (user) {
         // found the person, unlink haystack data
         user.linked_to_haystack = false;
@@ -18,7 +23,8 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
         releaseToken(storagePrefix);
       } else {
         // unable to unlink
-        sayAFewNotSoPartingWords(storagePrefix);
+        // it might have already been unlinked (through bot); this was just precautionary
+        // this path is still applicable for web ui unlinking
       }
     });
   }
@@ -33,7 +39,7 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
        // or be overwritten by a new token as required
      }
    });
-   
+
    // step 3: say a few parting words
    sayAFewPartingWords(storagePrefix);
    request_cache_module.quit();
