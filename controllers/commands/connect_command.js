@@ -55,6 +55,12 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
 
   getBearer(message, postConnect);
 
+  function getBearer(message, cb){
+    let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
+    request_cache_module.get(message.user + "_access", cb);
+    request_cache_module.quit();
+  }
+
   function postConnect(err, result) {
     if(err) {
       console.log(err);
@@ -138,12 +144,6 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
       });
 
       bot.reply(message, 'It appears that you are not linked yet. Visit Haystack.One to link to this channel.');
-    }
-
-    function getBearer(message, cb){
-      let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
-      request_cache_module.get(message.user.toLowerCase(), cb);
-      request_cache_module.quit();
     }
 
 };
