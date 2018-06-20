@@ -25,6 +25,12 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 
 getBearer(message, deleteUnlink);
 
+function getBearer(message, cb){
+  let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
+  request_cache_module.get(message.user + "_access", cb);
+  request_cache_module.quit();
+}
+
 function deleteUnlink(err, result) {
 
   let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/alias/' + message.user;
@@ -83,12 +89,6 @@ function deleteUnlink(err, result) {
       });
 
       bot.reply(message, 'Unable to complete unlinking. If issue persists, you can remove HOB from your contact list.');
-    }
-
-    function getBearer(message, cb){
-      let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
-      request_cache_module.get(message.user.toLowerCase(), cb);
-      request_cache_module.quit();
     }
 
 };
