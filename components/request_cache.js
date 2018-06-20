@@ -37,20 +37,13 @@ module.exports = function request_cache(config) {
  * @returns {{get: get, save: save, remove: remove}}
  */
 function getStorageObject(client) {
-  const {promisify} = require('util');
-  const getAsync = promisify(client.get).bind(client);
-
   return {
           get: function retrieve(id, cb) {
             if(!id) {
               return cb(new Error('The given key must be valid'), null);
             }
-
-            return getAsync(id).then(function(res) {
-                cb(null, res); // => 'bar'
-            }).catch((error) => {
-              console.log(error);
-              return cb(new Error('Unable to find record'), null);
+            client.get(id, function(err, res) {
+                cb(err, res ? res : null);
             });
           },
           save: function persist(key, value, cb) {
@@ -61,7 +54,10 @@ function getStorageObject(client) {
               client.set(key, value, cb);
           },
           remove: function eliminate(id, cb) {
-              client.del([id], cb);
+            if(!id) {
+              return cb(new Error('The given key must be valid'), null);
+            }
+            client.del([id], cb);
           },
 
           quit: function cutAndRun() {
