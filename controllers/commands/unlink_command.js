@@ -23,6 +23,10 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
     respondNotLinked(bot, message);
   }
 
+getBearer(message, deleteUnlink);
+
+function deleteUnlink(err, result) {
+
   let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/alias/' + message.user;
 
     command_request.delete({
@@ -45,6 +49,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
   			respondUnableToLink(bot, message);
   		}
   	});
+  }
 
     // get user record from DB
     function getHaystackUserId(message) {
@@ -78,6 +83,12 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
       });
 
       bot.reply(message, 'Unable to complete unlinking. If issue persists, you can remove HOB from your contact list.');
+    }
+
+    function getBearer(message, cb){
+      let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
+      request_cache_module.get(message.user.toLowerCase(), cb);
+      request_cache_module.quit();
     }
 
 };
