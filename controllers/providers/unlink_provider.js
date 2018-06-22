@@ -18,6 +18,7 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
         // found the person, unlink haystack data
         user.linked_to_haystack = false;
         user.haystack_id = '';
+        //user.haystack_user_data = {};
         msbotController.storage.users.save(user, function(err, id) {});
         // step 2: remove token
         releaseToken(storagePrefix);
