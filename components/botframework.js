@@ -43,8 +43,8 @@ module.exports = function() {
   var bot = controller.spawn({
     //appId: process.env.msbot_app_id,
     //appPassword: process.env.msbot_app_password
-    appId: '87f7bec1-3ca5-4c02-9fc6-1a1fa5aaa520',
-    appPassword: 'owbwhNCO714}_bkQJGX87=)'
+    appId: process.env.haystack_orator_microsoft_bot_channel_app_id,
+    appPassword: process.env.haystack_orator_microsoft_bot_channel_app_secret
   });
 
   // try out setting express server
