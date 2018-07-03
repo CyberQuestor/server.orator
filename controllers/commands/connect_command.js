@@ -25,23 +25,6 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
 		return;
 	}
 
-  let aliasType = 'SkypeBotLink';
-  if(message.address && message.address.channelId) {
-    switch(message.address.channelId){
-      case 'skype':
-      aliasType = 'SkypeBotLink';
-      break;
-      default:
-      aliasType = '';
-      break;
-    }
-  }
-
-  if(!aliasType) {
-    respondUnsupported(bot, message);
-    return;
-  }
-
   let haystackUserId = getHaystackUserId(message);
   if(!haystackUserId) {
     respondNotLinked(bot, message);

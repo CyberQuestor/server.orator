@@ -28,6 +28,9 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
       case 'skype':
       aliasType = 'SkypeBotLink';
       break;
+      case 'telegram':
+      aliasType = 'TelegramBotLink';
+      break;
       default:
       aliasType = '';
       break;
