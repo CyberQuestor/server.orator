@@ -47,13 +47,22 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
   }
 
   function sayAFewPartingWords(storagePrefix) {
-    // now say a few words
-    bot.say(
-      {
-        text: "I am sad to see you leave! Your account is now unlinked with Haystack.One",
-        address: storagePrefix.address
-      }
-    );
+    if(storagePrefix.is_acknowledge) {
+      bot.say(
+        {
+          text: "Acknowledged!",
+          address: storagePrefix.address
+        }
+      );
+    } else {
+      // now say a few words
+      bot.say(
+        {
+          text: "I am sad to see you leave! Your account is now unlinked with Haystack.One",
+          address: storagePrefix.address
+        }
+      );
+    }
   }
 
   function sayAFewNotSoPartingWords(storagePrefix) {

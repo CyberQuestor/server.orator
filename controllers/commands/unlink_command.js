@@ -49,6 +49,7 @@ function deleteUnlink(err, result) {
         let storagePrefix = {};
         storagePrefix.address = message.address;
         storagePrefix.user=message.user;
+        storagePrefix.is_acknowledge = true;
 
         unlinkModule(msbotController, bot, storagePrefix);
   		} catch(e) {
