@@ -251,23 +251,49 @@ module.exports = function welcome(controller) {
 
       });
     } else {
-      bot.startConversation(message, function(err, convo) {
-        //convo.say('You have to link your account to talk more with me.');
-        convo.say({
-          attachments: [{
-            contentType: 'application/vnd.microsoft.card.hero',
-            content: {
-              title: "Link to Haystack.One",
-              subtitle: "You have to link your account to talk more with me.",
-              buttons: [{
-                type: "openUrl",
-                title: "Sign in",
-                value: "https://haystack.one/haystack/sign_in"
-              }]
-            }
-          }]
+      // let build the link-up flow
+      let urlParameter = "";
+      let signInURL = process.env.haystack_orator_ui_signin_url;
+      let signUpURL = process.env.haystack_orator_ui_joinus_url;
+      let isAllowed = false;
+
+      try {
+    		let commonProvider = require(__dirname + '/../../providers/common_provider.js');
+    		isAllowed = commonProvider.verifyChannelValidity(bot, message);
+        if(isAllowed) {
+          urlParameter = "?bot=" + commonProvider.formulateBotLinkURL(message);
+          signInURL = signInURL + urlParameter;
+          signInURL = signInURL + urlParameter;
+        }
+    	} catch(e) {
+    		signInURL = process.env.haystack_orator_ui_signin_url;
+        signUpURL = process.env.haystack_orator_ui_joinus_url;
+    	}
+
+      if(isAllowed){
+        bot.startConversation(message, function(err, convo) {
+          //convo.say('You have to link your account to talk more with me.');
+          convo.say({
+            attachments: [{
+              contentType: 'application/vnd.microsoft.card.hero',
+              content: {
+                title: "Link to Haystack.One",
+                subtitle: "You have to link your account to talk more with me.",
+                buttons: [{
+                  type: "openUrl",
+                  title: "Sign in",
+                  value: signInURL
+                },
+                {
+                  type: "openUrl",
+                  title: "Join us",
+                  value: signUpURL
+                }]
+              }
+            }]
+          });
         });
-      });
+      }
     }
 
   }
