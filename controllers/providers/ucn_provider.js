@@ -9,7 +9,13 @@ module.exports = function userConnectNotificationProvider(msbotController, bot, 
   let postBackText = '!connect with ' + friendsAlias;
 
   // extracting prefix
-  let extractedPrefix = JSON.parse(storageComplex.prefix);
+  let extractedPrefix = "";
+  try {
+    extractedPrefix = JSON.parse(storageComplex.prefix);
+  } catch (e) {
+    console.log("Unable to parse prefix");
+    return;
+  }
 
   // now say a few words
   bot.say(
