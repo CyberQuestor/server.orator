@@ -1,4 +1,4 @@
-# Welcome to Haystack.One bot platform (HOB for short)
+# Welcome to Haystack.One sentient bots platform (HOBS for short)
 Here is how you setup environment to develop and run this project.
 
 - Either use `apt get` or `homebrew` to install following
