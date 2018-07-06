@@ -255,22 +255,22 @@ module.exports = function welcome(controller) {
       let urlParameter = "";
       let signInURL = process.env.haystack_orator_ui_signin_url;
       let signUpURL = process.env.haystack_orator_ui_joinus_url;
-      let isAllowed = false;
+      let aliasType = "";
 
       try {
     		let commonProvider = require(__dirname + '/../../providers/common_provider.js');
-    		isAllowed = commonProvider.verifyChannelValidity(bot, message);
-        if(isAllowed) {
-          urlParameter = "?bot=" + commonProvider.formulateBotLinkURL(message);
+    		aliasType = commonProvider.verifyChannelValidity(bot, message);
+        if(aliasType) {
+          urlParameter = "?bot=" + commonProvider.formulateBotLinkURL(message, aliasType);
           signInURL = signInURL + urlParameter;
-          signInURL = signInURL + urlParameter;
+          signUpURL = signUpURL + urlParameter;
         }
     	} catch(e) {
     		signInURL = process.env.haystack_orator_ui_signin_url;
         signUpURL = process.env.haystack_orator_ui_joinus_url;
     	}
 
-      if(isAllowed){
+      if(aliasType){
         bot.startConversation(message, function(err, convo) {
           //convo.say('You have to link your account to talk more with me.');
           convo.say({

@@ -7,18 +7,19 @@ const unescape = require('unescape');
 module.exports = {
 
   // aid in constructing a an encoded, escaped json based url string
-  formulateBotLinkURL: function (message){
+  formulateBotLinkURL: function (message, aliasType){
     let storagePrefix = {};
     storagePrefix.address = message.address;
     storagePrefix.user=message.user;
 
     let postURLData = {
       'alias': message.user,
-      'prefix': storagePrefix
+      'prefix': storagePrefix,
+      'aliasType': aliasType
     };
 
     let stringifiedURLData = JSON.stringify(postURLData);
-    return btoa(unescape(encodeURIComponent(stringifiedURLData)));
+    return encodeURIComponent(btoa(stringifiedURLData));
   },
 
   // check if the channel is supported
@@ -40,9 +41,9 @@ module.exports = {
 
     if(!aliasType) {
       respondUnsupportedChannel(bot, message);
-      return false;
+      return "";
     }
-    return true;
+    return aliasType;
   },
 
   // responds with usage text
