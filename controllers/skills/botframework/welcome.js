@@ -13,7 +13,9 @@ module.exports = function welcome(controller) {
     });
 
     bot.startConversation(message, function(err, convo) {
-      convo.say('Hello! I am a collective of Haystack.One Sentient Bots (you can call me HOBS).');
+      convo.setVar("haystack_locale",message.haystack_locale);
+
+      convo.say(bot.i18n.__({phrase:'welcome_message_hello', locale:convo.vars.haystack_locale}));
       convo.say({
         attachments: [{
           contentType: 'image/png',
@@ -26,17 +28,17 @@ module.exports = function welcome(controller) {
         attachments: [{
           contentType: 'application/vnd.microsoft.card.hero',
           content: {
-            title: "If you are new here.",
-            subtitle: "Check out what I am about.",
+            title: bot.i18n.__({phrase:'welcome_message_new_here', locale:convo.vars.haystack_locale}),
+            subtitle: bot.i18n.__({phrase:'welcome_message_check_out', locale:convo.vars.haystack_locale}),
             buttons: [{
                 type: "imBack",
-                title: "What are you?",
-                value: "what are you?"
+                title: bot.i18n.__({phrase:'welcome_button_title_what', locale:convo.vars.haystack_locale}),
+                value: bot.i18n.__({phrase:'welcome_button_payload_what', locale:convo.vars.haystack_locale})
               },
               {
                 type: "imBack",
-                title: "I am ready to sign-up",
-                value: "lets start using!"
+                title: bot.i18n.__({phrase:'welcome_button_title_ready', locale:convo.vars.haystack_locale}),
+                value: bot.i18n.__({phrase:'welcome_button_payload_ready', locale:convo.vars.haystack_locale})
               }
             ]
           }

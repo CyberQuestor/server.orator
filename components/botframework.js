@@ -2,13 +2,14 @@
 /**
  * Module Dependencies
  */
- var msBotkit = require('botkit');
- var os = require('os');
- var commandLineArgs = require('command-line-args');
- var localtunnel = require('localtunnel');
- var express = require('express');
- var bodyParser = require('body-parser');
- var http = require('http');
+ const msBotkit = require('botkit');
+ const os = require('os');
+ const commandLineArgs = require('command-line-args');
+ const localtunnel = require('localtunnel');
+ const express = require('express');
+ const bodyParser = require('body-parser');
+ const http = require('http');
+ const i18n = require(__dirname + '/../utilities/interpreter/i18nalternatives.js');
 
 module.exports = function() {
   const ops = commandLineArgs([
@@ -46,6 +47,9 @@ module.exports = function() {
     appId: process.env.haystack_orator_microsoft_bot_channel_app_id,
     appPassword: process.env.haystack_orator_microsoft_bot_channel_app_secret
   });
+
+  // setup alterntives support
+  bot.i18n = i18n.fetchi18n();
 
   // try out setting express server
   /*var webserver = express();
