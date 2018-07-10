@@ -5,6 +5,74 @@
   "welcome_button_title_what": "What are you?",
   "welcome_button_payload_what": "what are you?",
   "welcome_button_title_ready": "I am ready to sign-up",
-  "welcome_button_payload_ready": "lets start using!"
+  "welcome_button_payload_ready": "lets start using!",
+
+  "bot_command_failsafe_wish": "I wish that was a command! Try again.",
+
+  "welcome_message_time_to_check": "Time to check out Haystack.",
+  "welcome_message_easy_to_start": "It's easy to start using.",
+  "welcome_message_sign_in": "Sign in",
+  "welcome_message_join_us": "Join us",
+  "welcome_message_people": "People.",
+  "welcome_message_people_check": "You can check out people theme over here!",
+  "welcome_button_people_haystack": "Haystack.One People",
+  "welcome_message_legal": "Legal.",
+  "welcome_message_legal_check": "You can check out legal theme over here!",
+  "welcome_button_legal_haystack": "Haystack.One Legal",
+  "welcome_message_wealth": "Wealth.",
+  "welcome_message_wealth_check": "You can check out wealth theme over here!",
+  "welcome_button_wealth_haystack": "Haystack.One Wealth",
+  "welcome_message_platform": "I am a platform that helps you achieve [trusted curation using the wisdom of your networks](%s)",
+  "welcome_message_reinvent": "I am not trying to reinvent the wheel, just rearranging technology in a form people understand.",
+  "welcome_message_know_themes": "Do you want to know more about the themes I can provide?",
+  "welcome_message_all_themes": "You can check out all themes over here!",
+  "welcome_button_title_wealth": "Wealth",
+  "welcome_button_payload_wealth": "show me wealth",
+  "welcome_button_title_people": "People",
+  "welcome_button_payload_people": "show me people",
+  "welcome_button_title_legal": "Legal",
+  "welcome_button_payload_legal": "show me legal",
+
+  "common_message_failsafe": "I do not know how to respond to that message yet.",
+  "common_message_failsafe_learning": "But I am constantly learning as we speak.",
+  "common_message_failsafe_check_out": "Check out what I am about.",
+  "common_button_title_failsafe_what": "What are you?",
+  "common_button_payload_failsafe_what": "what are you?",
+  "common_button_title_failsafe_ready": "I am ready to sign-up",
+  "common_button_payload_failsafe_ready": "lets start using!",
+
+  "common_message_prompt_link": "Link to Haystack.One",
+  "common_message_prompt_link_account": "You have to link your account to talk more with me.",
+  "common_button_title_prompt_sign_in": "Sign in",
+  "common_button_title_prompt_join_us": "Join us",
+
+  "connect_command_respond_not_linked": "It appears that you are not linked yet. Visit Haystack.One to link to this channel.",
+  "connect_command_respond_unsupported": "This channel is not yet supported.",
+  "connect_command_respond_usage": "Usage: !connect with [alias]",
+  "connect_command_respond_unable_to_connect": "Unable to connect. You can try adding at Haystack.One",
+  "connect_command_now_connected": "You are now connected with %s at Haystack.One",
+
+  "link_command_unable_to_link": "Unable to complete linking. Make sure you copied the right OTP link phrase and it is not expired.",
+  "link_command_excellent": "Excellent!",
+  "link_command_respond_usage": "Usage: !link [primary_email] with OTP [generated_otp]",
+  "link_command_respond_unsupported": "This channel is not yet supported.",
+
+  "unlink_command_respond_usage": "Usage: !unlink haystack",
+  "unlink_command_respond_not_linked": "It appears that you are not linked yet. Visit Haystack.One to link to this channel.",
+  "unlink_command_unable_to_comply": "Unable to complete unlinking. If issue persists, you can remove HOBS from your contact list.",
+
+  "common_provider_respond_unsupported": "This channel is not yet supported.",
+
+  "link_provider_welcome_user": "Welcome %s!",
+  "link_provider_established": "Link has been established successfully. You will now receive notifications on this channel.",
+
+  "ucn_provider_connected_prompt": "%s has connected with you.",
+  "ucn_provider_would_you_connect": "Would you like to connect?",
+  "ucn_provider_button_payload_connect": "!connect with %s",
+  "ucn_provider_button_title_connect": "Connect",
+
+  "unlink_provider_parting_acknowledge": "Acknowledged!",
+  "unlink_provider_parting_sad": "I am sad to see you leave! Your account is now unlinked with Haystack.One",
+  "unlink_provider_parting_unable": "I am unable to unlink your account at the moment! You can attempt this again through Haystack.One"
 
 }

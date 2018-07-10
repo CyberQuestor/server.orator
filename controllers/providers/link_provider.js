@@ -1,7 +1,7 @@
 /*
 * Aids in linking haystack user with bot account
 */
-module.exports = function linkProvider(msbotController, bot, storageComplex) {
+module.exports = function linkProvider(msbotController, bot, storageComplex, locale) {
 
   let myName = storageComplex.user.firstName;
 
@@ -14,14 +14,14 @@ module.exports = function linkProvider(msbotController, bot, storageComplex) {
   // now say a few words
   bot.say(
     {
-      text: 'Welcome ' + myName + ' !',
+      text: bot.i18n.__({phrase:'link_provider_welcome_user', locale}, myName),
       address: extractedPrefix.address
     }
   );
 
   bot.say(
     {
-      text: 'Link has been established successfully. You will now receive notifications on this channel.',
+      text: bot.i18n.__({phrase:'link_provider_established', locale}),
       address: extractedPrefix.address
     }
   );

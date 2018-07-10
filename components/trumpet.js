@@ -26,6 +26,11 @@ module.exports = function(msbotControllerComplex) {
   restServer.use(restify.plugins.queryParser());
   restServer.use(restify.plugins.bodyParser());
 
+  restServer.use((req, res, next) => {
+    res.header('locale', "en");
+    return next();
+});
+
 
 
   var normalizedPath = require("path").join(__dirname, "/../controllers/endpoints");

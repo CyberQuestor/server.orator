@@ -6,7 +6,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 	// Bot code here - check command structure
   let haystackWord = arguments[0];
 
-  if (!haystackWord) {
+  if (!haystackWord || haystackWord !== 'haystack' ) {
     respondUsage(bot, message);
     return;
   }
@@ -51,7 +51,7 @@ function deleteUnlink(err, result) {
         storagePrefix.user=message.user;
         storagePrefix.is_acknowledge = true;
 
-        unlinkModule(msbotController, bot, storagePrefix);
+        unlinkModule(msbotController, bot, storagePrefix, message.haystack_locale);
   		} catch(e) {
   			respondUnableToLink(bot, message);
   		}
@@ -71,7 +71,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, 'Usage: !unlink haystack');
+      bot.reply(message, bot.i18n.__({phrase:'unlink_command_respond_usage', locale:message.haystack_locale}));
     }
 
     // responds with not linked text
@@ -80,7 +80,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, 'It appears that you are not linked yet. Visit Haystack.One to link to this channel.');
+      bot.reply(message, bot.i18n.__({phrase:'unlink_command_respond_not_linked', locale:message.haystack_locale}));
     }
 
     // responds with not linked text
@@ -89,7 +89,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, 'Unable to complete unlinking. If issue persists, you can remove HOB from your contact list.');
+      bot.reply(message, bot.i18n.__({phrase:'unlink_command_unable_to_comply', locale:message.haystack_locale}));
     }
 
 };

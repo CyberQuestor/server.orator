@@ -1,12 +1,12 @@
 /*User connection notification provider*/
-module.exports = function userConnectNotificationProvider(msbotController, bot, storageComplex) {
+module.exports = function userConnectNotificationProvider(msbotController, bot, storageComplex, locale) {
   let myName = storageComplex.myProfile.firstName;
   let friendsName = storageComplex.friendProfile.firstName;
   let friendsAlias = storageComplex.friendsAlias
 
-  let dialogTitle = friendsName + ' has connected with you';
-  let dialogSubtitle = 'Would you like to connect?';
-  let postBackText = '!connect with ' + friendsAlias;
+  let dialogTitle = bot.i18n.__({phrase:'ucn_provider_connected_prompt', locale}, friendsName);
+  let dialogSubtitle = bot.i18n.__({phrase:'ucn_provider_would_you_connect', locale});
+  let postBackText = bot.i18n.__({phrase:'ucn_provider_button_payload_connect', locale}, friendsAlias);
 
   // extracting prefix
   let extractedPrefix = "";
@@ -27,7 +27,7 @@ module.exports = function userConnectNotificationProvider(msbotController, bot, 
           subtitle: dialogSubtitle,
           buttons: [{
             type: "imBack",
-            title: "Connect",
+            title: bot.i18n.__({phrase:'ucn_provider_button_title_connect', locale}),
             value: postBackText
           }]
         }

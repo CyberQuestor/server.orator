@@ -10,11 +10,15 @@ module.exports = function(msbotControllerComplex, restServer) {
   });
 
   restServer.get('/decode', function (req, res, next) {
-    let compileit = 'java -cp ~/work/NewWorld/code/server.utilities/target/server.utilities-1.1.1.0.jar com.hs.haystack.secretkeeper.Gringotts -d "]>s{iy*f11zmdh~\\\\" /var/lib/haystack/kok/db';
+    //let compileit = 'java -cp ~/work/NewWorld/code/server.utilities/target/server.utilities-1.1.1.0.jar com.hs.haystack.secretkeeper.Gringotts -d "]>s{iy*f11zmdh~\\\\" /var/lib/haystack/kok/db';
 
-    endpoint_exec(compileit, function(error, stdout, stderr) {
-      res.send(stdout);
-    });
+    //endpoint_exec(compileit, function(error, stdout, stderr) {
+    //  res.send(stdout);
+    //});
+
+    let locale = res.getHeader('locale');
+    console.log("locale");
+    console.log(locale);
 
 
     return next();

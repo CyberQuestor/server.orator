@@ -52,6 +52,6 @@ module.exports = {
       type: "typing"
     });
 
-    bot.reply(message, 'This channel is not yet supported.');
+    bot.reply(message, bot.i18n.__({phrase:'common_provider_respond_unsupported', locale:message.haystack_locale}));
   }
 }

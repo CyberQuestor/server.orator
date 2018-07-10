@@ -78,7 +78,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
       try {
         // user profile
         // body is already object, no need for JSON.parse(body);
-        bot.reply(message, 'You are now connected with ' + friendsAlias + ' at Haystack.One');
+        bot.reply(message, bot.i18n.__({phrase:'connect_command_now_connected', locale:message.haystack_locale}, friendsAlias));
 
       } catch(e) {
         respondUnableToConnect(bot, message);
@@ -92,7 +92,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
         type: "typing"
       });
 
-      bot.reply(message, 'Unable to connect. You can try adding at Haystack.One');
+      bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_unable_to_connect', locale:message.haystack_locale}));
     }
 
     // responds with usage text
@@ -101,7 +101,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
         type: "typing"
       });
 
-      bot.reply(message, 'Usage: !connect with [alias]');
+      bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_usage', locale:message.haystack_locale}));
     }
 
     // responds with usage text
@@ -110,7 +110,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
         type: "typing"
       });
 
-      bot.reply(message, 'This channel is not yet supported.');
+      bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_unsupported', locale:message.haystack_locale}));
     }
 
     // add user record in to DB
@@ -126,7 +126,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
         type: "typing"
       });
 
-      bot.reply(message, 'It appears that you are not linked yet. Visit Haystack.One to link to this channel.');
+      bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_not_linked', locale:message.haystack_locale}));
     }
 
 };

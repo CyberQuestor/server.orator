@@ -1,5 +1,5 @@
 
-module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
+module.exports = function unlinkProvider(msbotController, bot, storagePrefix, locale) {
 
   // time to remove it
 
@@ -50,7 +50,7 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
     if(storagePrefix.is_acknowledge) {
       bot.say(
         {
-          text: "Acknowledged!",
+          text: bot.i18n.__({phrase:'unlink_provider_parting_acknowledge', locale}),
           address: storagePrefix.address
         }
       );
@@ -58,7 +58,7 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
       // now say a few words
       bot.say(
         {
-          text: "I am sad to see you leave! Your account is now unlinked with Haystack.One",
+          text: bot.i18n.__({phrase:'unlink_provider_parting_sad', locale}),
           address: storagePrefix.address
         }
       );
@@ -69,7 +69,7 @@ module.exports = function unlinkProvider(msbotController, bot, storagePrefix) {
     // now say a few words
     bot.say(
       {
-        text: "I am unable to unlink your account at the moment! You can attempt this again through Haystack.One",
+        text: bot.i18n.__({phrase:'unlink_provider_parting_unable', locale}),
         address: storagePrefix.address
       }
     );
