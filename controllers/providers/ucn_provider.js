@@ -6,7 +6,7 @@ module.exports = function userConnectNotificationProvider(msbotController, bot, 
 
   let dialogTitle = bot.i18n.__({phrase:'ucn_provider_connected_prompt', locale}, friendsName);
   let dialogSubtitle = bot.i18n.__({phrase:'ucn_provider_would_you_connect', locale});
-  let postBackText = bot.i18n.__({phrase:'ucn_provider_button_payload_connect', locale}, friendsAlias);
+  let postBackText = "!connect with " + friendsAlias;
 
   // extracting prefix
   let extractedPrefix = "";
