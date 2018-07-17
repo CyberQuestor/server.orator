@@ -11,10 +11,24 @@ module.exports = {
     let storagePrefix = {};
     storagePrefix.address = message.address;
     storagePrefix.user=message.user;
+    let clientType = 'x-client-mca-skype';
+
+    switch(aliasType){
+      case 'SkypeBotLink':
+      clientType = 'x-client-mca-skype';
+      break;
+      case 'TelegramBotLink':
+      clientType = 'x-client-mca-telegram';
+      break;
+      default:
+      clientType = '';
+      break;
+    }
 
     let postURLData = {
       'alias': message.user,
       'prefix': storagePrefix,
+      'client': clientType,
       'aliasType': aliasType
     };
 

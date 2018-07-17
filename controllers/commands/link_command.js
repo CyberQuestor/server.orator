@@ -23,16 +23,21 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 	}
 
   let aliasType = 'SkypeBotLink';
+  let clientType = 'x-client-mca-skype';
+
   if(message.address && message.address.channelId) {
     switch(message.address.channelId){
       case 'skype':
       aliasType = 'SkypeBotLink';
+      clientType = 'x-client-mca-skype';
       break;
       case 'telegram':
       aliasType = 'TelegramBotLink';
+      clientType = 'x-client-mca-telegram';
       break;
       default:
       aliasType = '';
+      clientType = '';
       break;
     }
   }
@@ -57,6 +62,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
     'otp': activationCode,
     'alias': message.user,
     'channel': aliasType,
+    'client': clientType,
     'prefix': JSON.stringify(storagePrefix)
   };
 
