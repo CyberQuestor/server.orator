@@ -8,6 +8,7 @@
     "flow": "flow"
   },
   "dependencies": {
+    "app-root-path": "^2.1.0",
     "body-parser": "^1.18.3",
     "botkit": "^0.6.12",
     "botkit-storage-redis": "^1.1.0",

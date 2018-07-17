@@ -2,7 +2,9 @@
 const environment = require(__dirname + '/utilities/interpreter/environment.js');
 const unhandled = require(__dirname + '/utilities/interpreter/unhandled.js');
 const access = require(__dirname + '/utilities/interpreter/access.js');
-const logger = require(__dirname + '/utilities/interpreter/logger.js').fetchLogger();
+const logger = require(__dirname + '/utilities/interpreter/logger.js').initializeLogger();
+
+global.reqlib = require('app-root-path').require;
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');

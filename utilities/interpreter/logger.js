@@ -4,10 +4,11 @@ require('winston-daily-rotate-file');
 const path = require ('path');
 const fs = require('fs');
 const mkdirs = require('node-mkdirs');
+let winstonLogger = createLogger;
 
 module.exports = {
 
-  fetchLogger: function () {
+  initializeLogger: function () {
 
     // get the path right
     // check if its defined somewhere
@@ -40,7 +41,7 @@ module.exports = {
       format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
     );
 
-    let logger = createLogger({
+    winstonLogger = createLogger({
       level: logLevel,
       format: formatAlignedWithColorsAndTime,
       transports: localTransports
@@ -51,16 +52,37 @@ module.exports = {
     // `${info.level}: ${info.message} JSON.stringify({ ...rest }) `
     //
     if (process.env.NODE_ENV !== 'production') {
-      logger.add(new transports.Console({
+      winstonLogger.add(new transports.Console({
         format: formatAlignedWithColorsAndTime,
         level: 'silly'
       }));
     }
 
-    logger.info('Successfully loaded logger!');
-    logger.silly('Logging to path: ' + pathToLog);
-    logger.silly('Logging at level: ' + logLevel);
+    winstonLogger.info('Successfully loaded logger!');
+    winstonLogger.silly('Logging to path: ' + pathToLog);
+    winstonLogger.silly('Logging at level: ' + logLevel);
 
-    return logger;
+    return winstonLogger;
+  },
+
+  // support info, silly, debug and error
+  fetchLogger: function (moduleName) {
+    let fileLogger = {
+        error: function(text) {
+            winstonLogger.error(moduleName + ': ' + text)
+        },
+        info: function(text) {
+            winstonLogger.info(moduleName + ': ' + text)
+        },
+        debug: function(text) {
+            winstonLogger.debug(moduleName + ': ' + text)
+        },
+        silly: function(text) {
+            winstonLogger.silly(moduleName + ': ' + text)
+        }
+    }
+
+    return fileLogger;
   }
+
 }

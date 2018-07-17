@@ -1,5 +1,8 @@
 /* This module kicks in if no Botkit Studio token has been provided */
 
+//const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__filename);
+const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger("msbot_welcome");
+
 module.exports = function welcome(controller) {
 
   // function hoist
