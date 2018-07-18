@@ -16,6 +16,7 @@
     "btoa": "^1.2.1",
     "command-line-args": "^5.0.2",
     "debug": "^3.1.0",
+    "enum": "^2.5.0",
     "express": "^4.16.3",
     "express-hbs": "^1.0.4",
     "i18n": "^0.8.3",

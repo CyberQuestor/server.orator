@@ -1,7 +1,7 @@
 /* This module kicks in if no Botkit Studio token has been provided */
 
-//const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__filename);
-const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger("msbot_welcome");
+const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__dirname + __filename);
+const ResponseCode = reqlib('/utilities/interpreter/rode.js').fetchResponseCode();
 
 module.exports = function welcome(controller) {
 
@@ -64,7 +64,7 @@ module.exports = function welcome(controller) {
   		let module = require(__dirname + '/../../commands/' + command + '_command.js');
   		module(controller, bot, message, args.trim().split(/\s+/));
   	} catch(e) {
-      logger.silly('Someone tried to use unrecognized command!');
+      logger.silly(ResponseCode.UnrecognizedException.value, e);
   		bot.reply(message, bot.i18n.__({phrase:'bot_command_failsafe_wish', locale: message.haystack_locale}));
   	}
   }

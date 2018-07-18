@@ -31,7 +31,9 @@ module.exports = {
       zippedArchive: true,
       filename: path.join(pathToLog, 'haystack_%DATE%.log'),
       maxFiles: '179d',
-      maxSize: '17m'
+      maxSize: '17m',
+      handleExceptions: true,
+      exitOnError: false
     }));
 
     let formatAlignedWithColorsAndTime = format.combine(
@@ -54,7 +56,9 @@ module.exports = {
     if (process.env.NODE_ENV !== 'production') {
       winstonLogger.add(new transports.Console({
         format: formatAlignedWithColorsAndTime,
-        level: 'silly'
+        level: 'silly',
+        handleExceptions: true,
+        exitOnError: false
       }));
     }
 
@@ -68,17 +72,17 @@ module.exports = {
   // support info, silly, debug and error
   fetchLogger: function (moduleName) {
     let fileLogger = {
-        error: function(text) {
-            winstonLogger.error(moduleName + ': ' + text)
+        error: function(text, object) {
+            winstonLogger.error(moduleName + ': ' + text, object)
         },
-        info: function(text) {
-            winstonLogger.info(moduleName + ': ' + text)
+        info: function(text, object) {
+            winstonLogger.info(moduleName + ': ' + text, object)
         },
-        debug: function(text) {
-            winstonLogger.debug(moduleName + ': ' + text)
+        debug: function(text, object) {
+            winstonLogger.debug(moduleName + ': ' + text, object)
         },
-        silly: function(text) {
-            winstonLogger.silly(moduleName + ': ' + text)
+        silly: function(text, object) {
+            winstonLogger.silly(moduleName + ': ' + text, object)
         }
     }
 

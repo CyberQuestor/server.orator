@@ -1,10 +1,11 @@
 // Set all your environment variables
+global.reqlib = require('app-root-path').require;
+// enable only after revisions
+//const resuscitate = require(__dirname + '/utilities/interpreter/resuscitate.js');
 const environment = require(__dirname + '/utilities/interpreter/environment.js');
 const unhandled = require(__dirname + '/utilities/interpreter/unhandled.js');
 const access = require(__dirname + '/utilities/interpreter/access.js');
 const logger = require(__dirname + '/utilities/interpreter/logger.js').initializeLogger();
-
-global.reqlib = require('app-root-path').require;
 
 var Botkit = require('botkit');
 var debug = require('debug')('botkit:main');
