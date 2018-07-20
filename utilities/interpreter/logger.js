@@ -72,18 +72,23 @@ module.exports = {
 
   // support info, silly, debug and error
   fetchLogger: function (moduleName) {
+    function getLabel() {
+        let parts = moduleName.split('/');
+        return parts[parts.length - 2] + '/' + parts.pop();
+    };
+
     let fileLogger = {
         error: function(rode, object) {
-            winstonLogger.error(moduleName + ': ' + extractTextToLog(rode), object)
+            winstonLogger.error(' [' + getLabel() + '] ' + ': ' + extractTextToLog(rode), object);
         },
         info: function(rode, object) {
-            winstonLogger.info(moduleName + ': ' + extractTextToLog(rode), object)
+            winstonLogger.info(' [' + getLabel() + '] ' + ': ' + extractTextToLog(rode), object);
         },
         debug: function(rode, object) {
-            winstonLogger.debug(moduleName + ': ' + extractTextToLog(rode), object)
+            winstonLogger.debug(' [' + getLabel() + '] ' + ': ' + extractTextToLog(rode), object);
         },
         silly: function(rode, object) {
-            winstonLogger.silly(moduleName + ': ' + extractTextToLog(rode), object)
+            winstonLogger.silly(' [' + getLabel() + '] ' + ': ' + extractTextToLog(rode), object);
         }
     }
 
