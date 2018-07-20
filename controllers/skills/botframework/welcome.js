@@ -64,7 +64,8 @@ module.exports = function welcome(controller) {
   		let module = require(__dirname + '/../../commands/' + command + '_command.js');
   		module(controller, bot, message, args.trim().split(/\s+/));
   	} catch(e) {
-      logger.silly(ResponseCode.UnrecognizedException.value, e);
+      // don't send value; send code only!
+      logger.silly(ResponseCode.UnrecognizedException, e);
   		bot.reply(message, bot.i18n.__({phrase:'bot_command_failsafe_wish', locale: message.haystack_locale}));
   	}
   }

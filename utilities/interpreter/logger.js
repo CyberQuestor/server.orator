@@ -4,6 +4,7 @@ require('winston-daily-rotate-file');
 const path = require ('path');
 const fs = require('fs');
 const mkdirs = require('node-mkdirs');
+const ResponseCode = require('./rode.js').fetchResponseCode();
 let winstonLogger = createLogger;
 
 module.exports = {
@@ -72,18 +73,30 @@ module.exports = {
   // support info, silly, debug and error
   fetchLogger: function (moduleName) {
     let fileLogger = {
-        error: function(text, object) {
-            winstonLogger.error(moduleName + ': ' + text, object)
+        error: function(rode, object) {
+            winstonLogger.error(moduleName + ': ' + extractTextToLog(rode), object)
         },
-        info: function(text, object) {
-            winstonLogger.info(moduleName + ': ' + text, object)
+        info: function(rode, object) {
+            winstonLogger.info(moduleName + ': ' + extractTextToLog(rode), object)
         },
-        debug: function(text, object) {
-            winstonLogger.debug(moduleName + ': ' + text, object)
+        debug: function(rode, object) {
+            winstonLogger.debug(moduleName + ': ' + extractTextToLog(rode), object)
         },
-        silly: function(text, object) {
-            winstonLogger.silly(moduleName + ': ' + text, object)
+        silly: function(rode, object) {
+            winstonLogger.silly(moduleName + ': ' + extractTextToLog(rode), object)
         }
+    }
+
+    function extractTextToLog(rode) {
+      let textToLog = '';
+      if(typeof rode == 'object') {
+        textToLog = rode.value
+      } else if(typeof rode == 'string') {
+        textToLog = rode;
+      } else {
+        textToLog = 'Rode is not supported for logging yet!';
+      }
+      return textToLog;
     }
 
     return fileLogger;
