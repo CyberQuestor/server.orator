@@ -24,6 +24,15 @@ module.exports = function commonNotificationProvider(msbotController, bot, stora
     case 'common_notification_provider_pov_questionnaire_followup_body':
     case 'common_notification_provider_license_approved_body':
     case 'common_notification_provider_license_rejected_body':
+    case 'common_notification_provider_corporate_welcome_body':
+    case 'common_notification_provider_initial_goodies_body':
+    case 'common_notification_provider_earned_goodies_body':
+    case 'common_notification_provider_missed_goodies_body':
+    case 'common_notification_provider_benefactor_connect_body':
+    case 'common_notification_provider_remove_all_group_body':
+    case 'common_notification_provider_import_failure_partial_body':
+    case 'common_notification_provider_import_failure_all_body':
+    case 'common_notification_provider_import_success_body':
       contextCommonNotification(bunchOfArguments, messageKey);
       break;
     default:

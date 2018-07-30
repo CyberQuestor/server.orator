@@ -83,5 +83,14 @@
   "common_notification_provider_pov_show_interest_body": "{name} has showcased interest in your {type} titled {title}; Visit {prospect-link} to check-out the response and know more.",
   "common_notification_provider_pov_questionnaire_followup_body": "You did not answer the assessment questionnaire associated with {type} titled {title}; Visit {followup-link} to respond.",
   "common_notification_provider_license_approved_body": "Your license has been approved; navigate to My Profile -> License Management and click refresh to create cards.",
-  "common_notification_provider_license_rejected_body": "Your license has been rejected; we shall reach out and explain the reasons for rejection."
+  "common_notification_provider_license_rejected_body": "Your license has been rejected; we shall reach out and explain the reasons for rejection.",
+  "common_notification_provider_corporate_welcome_body" : "{name} has added you as a partner/customer in Haystack.One; use link {signinlink} to sign in.",
+  "common_notification_provider_initial_goodies_body": "We noticed that you haven't earned goodies this week; earn by creating, sharing or responding in Haystack.One. Your total goodies are {total}.",
+  "common_notification_provider_earned_goodies_body": "Happy to let you know that you earned {difference} goodies this week; your total goodies are {total}. Continue using Haystack.One and earn more goodies.",
+  "common_notification_provider_missed_goodies_body": "We noticed that you haven't earned goodies this week; earn by creating, sharing or responding in Haystack.One. Your total goodies are {total}.",
+  "common_notification_provider_benefactor_connect_body": "Thanks for the card share, will check it. Would be great to stay in touch with you. Would you like to connect on Haystack.One? - {benefactorname}",
+  "common_notification_provider_remove_all_group_body": "{firstName} has detached you from all groups. Thanks for your contribution.",
+  "common_notification_provider_import_failure_partial_body": "User import has failed partially due to multiple reasons, import the file once again.",
+  "common_notification_provider_import_failure_all_body": "Users import has failed due to multiple reasons, import the file once again.",
+  "common_notification_provider_import_success_body": "Users have been successfully imported; check your network to proceed."
 }
