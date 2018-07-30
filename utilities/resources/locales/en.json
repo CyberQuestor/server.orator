@@ -92,5 +92,6 @@
   "common_notification_provider_remove_all_group_body": "{firstName} has detached you from all groups. Thanks for your contribution.",
   "common_notification_provider_import_failure_partial_body": "User import has failed partially due to multiple reasons, import the file once again.",
   "common_notification_provider_import_failure_all_body": "Users import has failed due to multiple reasons, import the file once again.",
-  "common_notification_provider_import_success_body": "Users have been successfully imported; check your network to proceed."
+  "common_notification_provider_import_success_body": "Users have been successfully imported; check your network to proceed.",
+  "common_notification_provider_whatsnew_broadcast_body": "{broadcastmessage}"
 }
