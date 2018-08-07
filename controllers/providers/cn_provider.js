@@ -34,6 +34,7 @@ module.exports = function commonNotificationProvider(msbotController, bot, stora
     case 'common_notification_provider_import_failure_all_body':
     case 'common_notification_provider_import_success_body':
     case 'common_notification_provider_whatsnew_broadcast_body':
+    case 'common_notification_provider_user_connect_body':
       contextCommonNotification(bunchOfArguments, messageKey);
       break;
     default:

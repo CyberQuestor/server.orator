@@ -93,5 +93,6 @@
   "common_notification_provider_import_failure_partial_body": "User import has failed partially due to multiple reasons, import the file once again.",
   "common_notification_provider_import_failure_all_body": "Users import has failed due to multiple reasons, import the file once again.",
   "common_notification_provider_import_success_body": "Users have been successfully imported; check your network to proceed.",
-  "common_notification_provider_whatsnew_broadcast_body": "{broadcastmessage}"
+  "common_notification_provider_whatsnew_broadcast_body": "{broadcastmessage}",
+  "common_notification_provider_user_connect_body": "Would be great to stay in touch. Would you like to connect on Haystack.One? - {invitername}"
 }
