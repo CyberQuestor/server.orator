@@ -1,4 +1,6 @@
 /*Common text-only notifications provider*/
+const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__dirname + __filename);
+const ResponseCode = reqlib('/utilities/interpreter/rode.js').fetchResponseCode();
 
 module.exports = function commonNotificationProvider(msbotController, bot, storageComplex, locale) {
   let bunchOfArguments = storageComplex.arguments;
@@ -9,7 +11,7 @@ module.exports = function commonNotificationProvider(msbotController, bot, stora
   try {
     extractedPrefix = JSON.parse(storageComplex.prefix);
   } catch (e) {
-    console.log("Unable to parse prefix");
+    logger.error(ResponseCode.ParsingPrefixException, e);
     return;
   }
 
