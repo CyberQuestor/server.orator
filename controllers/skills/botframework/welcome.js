@@ -19,13 +19,13 @@ module.exports = function welcome(controller) {
       convo.setVar("haystack_locale",message.haystack_locale);
 
       convo.say(bot.i18n.__({phrase:'welcome_message_hello', locale:convo.vars.haystack_locale}));
-      convo.say({
+      /*convo.say({
         attachments: [{
           contentType: 'image/png',
           contentUrl: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png',
           name: 'Bender_Rodriguez.png'
         }]
-      });
+      });*/
       //convo.say('If you are new here, check out what I am about.');
       convo.say({
         attachments: [{
@@ -37,11 +37,6 @@ module.exports = function welcome(controller) {
                 type: "imBack",
                 title: bot.i18n.__({phrase:'welcome_button_title_what', locale:convo.vars.haystack_locale}),
                 value: bot.i18n.__({phrase:'welcome_button_payload_what', locale:convo.vars.haystack_locale})
-              },
-              {
-                type: "imBack",
-                title: bot.i18n.__({phrase:'welcome_button_title_ready', locale:convo.vars.haystack_locale}),
-                value: bot.i18n.__({phrase:'welcome_button_payload_ready', locale:convo.vars.haystack_locale})
               }
             ]
           }
@@ -256,11 +251,6 @@ module.exports = function welcome(controller) {
                   type: "imBack",
                   title: bot.i18n.__({phrase:'common_button_title_failsafe_what', locale:convo.vars.haystack_locale}),
                   value: bot.i18n.__({phrase:'common_button_payload_failsafe_what', locale:convo.vars.haystack_locale})
-                },
-                {
-                  type: "imBack",
-                  title: bot.i18n.__({phrase:'common_button_title_failsafe_ready', locale:convo.vars.haystack_locale}),
-                  value: bot.i18n.__({phrase:'common_button_payload_failsafe_ready', locale:convo.vars.haystack_locale})
                 }
               ]
             }
