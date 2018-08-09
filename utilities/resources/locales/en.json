@@ -75,6 +75,8 @@
   "unlink_provider_parting_sad": "I am sad to see you leave! Your account is now unlinked with Haystack.One",
   "unlink_provider_parting_unable": "I am unable to unlink your account at the moment! You can attempt this again through Haystack.One",
 
+  "contact_add_welcome_return_message": "Welcome back! You can continue receiving notifications now.",
+
   "common_notification_provider_section": "----------------------------------THIS IS COMMON NOTIFICATION SECTION----------------------------------",
   "common_notification_provider_pov_share_body": "{name} sent {type} titled {title}; Visit {share-link} to respond/share.",
   "common_notification_provider_pov_prompt_body":"{name} is following up on an {type} titled {title} that was shared with you. Visit {share-link} to respond/share.",

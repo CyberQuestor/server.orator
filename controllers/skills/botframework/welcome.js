@@ -259,54 +259,13 @@ module.exports = function welcome(controller) {
 
       });
     } else {
-      // let build the link-up flow
-      let urlParameter = "";
-      let signInURL = process.env.haystack_orator_ui_signin_url;
-      let signUpURL = process.env.haystack_orator_ui_joinus_url;
-      let aliasType = "";
-
-      try {
-    		let commonProvider = require(__dirname + '/../../providers/common_provider.js');
-    		aliasType = commonProvider.verifyChannelValidity(bot, message);
-        if(aliasType) {
-          urlParameter = "?bot=" + commonProvider.formulateBotLinkURL(message, aliasType);
-          signInURL = signInURL + urlParameter;
-          signUpURL = signUpURL + urlParameter;
-        }
-    	} catch(e) {
-    		signInURL = process.env.haystack_orator_ui_signin_url;
-        signUpURL = process.env.haystack_orator_ui_joinus_url;
-    	}
-
-      if(aliasType){
-        bot.startConversation(message, function(err, convo) {
-          //convo.say('You have to link your account to talk more with me.');
-          convo.setVar("haystack_locale",message.haystack_locale);
-
-          convo.say({
-            attachments: [{
-              contentType: 'application/vnd.microsoft.card.hero',
-              content: {
-                title: bot.i18n.__({phrase:'common_message_prompt_link', locale:convo.vars.haystack_locale}),
-                subtitle: bot.i18n.__({phrase:'common_message_prompt_link_account', locale:convo.vars.haystack_locale}),
-                buttons: [{
-                  type: "openUrl",
-                  title: bot.i18n.__({phrase:'common_button_title_prompt_sign_in', locale:convo.vars.haystack_locale}),
-                  value: signInURL
-                },
-                {
-                  type: "openUrl",
-                  title: bot.i18n.__({phrase:'common_button_title_prompt_join_us', locale:convo.vars.haystack_locale}),
-                  value: signUpURL
-                }]
-              }
-            }]
-          });
-        });
-      }
+      let commonProvider = require(__dirname + '/../../providers/common_provider.js');
+      aliasType = commonProvider.askContactToLinkHaystack(bot, message);
     }
 
   }
+
+
 
   // this middleware just ensures that none of the messages are serviced unless we have a link to haystack data
   function custom_haystack_link_hear_middleware(patterns, message) {

@@ -2,7 +2,7 @@ const command_request = require('request');
 const command_util = require('util');
 
 // This function will be run whenever link command is accessed
-module.exports = function linkCommand (msbotController, bot, message, arguments) {
+module.exports = function unlinkCommand (msbotController, bot, message, arguments) {
 	// Bot code here - check command structure
   let haystackWord = arguments[0];
 

@@ -9,7 +9,7 @@ Participate in the quest of a lifetime. Discover environment-aware peers, sensor
   - Keep and eye on hoisting path with respect to functions and variables
 
 #####Sample trigger message
-```json
+```js
 {
   type: <type of event>,
   user: <unique id of user who sent the message>,
@@ -20,7 +20,7 @@ Participate in the quest of a lifetime. Discover environment-aware peers, sensor
 ```
 
 #####Sample address
-```json
+```js
 {
   id: '1526582390281',
   channelId: 'skype',
@@ -41,7 +41,7 @@ Participate in the quest of a lifetime. Discover environment-aware peers, sensor
 
 
 #####Sample message object
-```json
+```js
 { text: '!link me',
   type: 'message_received',
   timestamp: '2018-05-29T10:21:50.085Z',
@@ -84,4 +84,49 @@ Participate in the quest of a lifetime. Discover environment-aware peers, sensor
    { id: 'skype:29:1d9VvOaHnUNzy5ljbPupZOXt9VSyFlOEigqorpBiJJDo',
      linked_to_haystack: false },
   match: [ '!link', index: 0, input: '!link me', groups: undefined ] }
+```
+
+
+
+###Sample contact add/remove message object
+```js
+{ action: 'add',
+  type: 'contactRelationUpdate',
+  timestamp: '2018-08-09T11:08:02.083Z',
+  entities: [ { locale: 'en', platform: 'Windows', type: 'clientInfo' } ],
+  text: '',
+  attachments: [],
+  address:
+   { id: 'f:0',
+     channelId: 'skype',
+     user:
+      { id: '29:17xaXsLBw-bVOq6zr-S4TctSv-V79mGRlJHFfBD2RyFQXZnjDhVe2g27QfFnu7UHE',
+        name: 'Vinay Naik' },
+     conversation:
+      { id: '29:17xaXsLBw-bVOq6zr-S4TctSv-V79mGRlJHFfBD2RyFQXZnjDhVe2g27QfFnu7UHE' },
+     bot: { id: '28:87f7bec1-3ca5-4c02-9fc6-1a1fa5aaa520', name: 'Quest' },
+     serviceUrl: 'https://smba.trafficmanager.net/apis/' },
+  source: 'skype',
+  raw_message:
+   { action: 'add',
+     type: 'contactRelationUpdate',
+     timestamp: '2018-08-09T11:08:02.083Z',
+     entities: [ [Object] ],
+     text: '',
+     attachments: [],
+     address:
+      { id: 'f:0',
+        channelId: 'skype',
+        user: [Object],
+        conversation: [Object],
+        bot: [Object],
+        serviceUrl: 'https://smba.trafficmanager.net/apis/' },
+     source: 'skype' },
+  _pipeline: { stage: 'receive' },
+  user: 'skype:29:17xaXsLBw-bVOq6zr-S4TctSv-V79mGRlJHFfBD2RyFQXZnjDhVe2g27QfFnu7UHE',
+  channel: 'skype:29:17xaXsLBw-bVOq6zr-S4TctSv-V79mGRlJHFfBD2RyFQXZnjDhVe2g27QfFnu7UHE',
+  haystack_locale: 'en',
+  haystack_data:
+   { id: 'skype:29:17xaXsLBw-bVOq6zr-S4TctSv-V79mGRlJHFfBD2RyFQXZnjDhVe2g27QfFnu7UHE',
+     linked_to_haystack: false } }
 ```
