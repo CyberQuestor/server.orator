@@ -11,6 +11,8 @@ module.exports = function(controller) {
 
 
     var webserver = express();
+    var router = express.Router();
+
     webserver.use(bodyParser.json());
     webserver.use(bodyParser.urlencoded({ extended: true }));
 
@@ -27,7 +29,8 @@ module.exports = function(controller) {
         });
     }
 
-    webserver.use(express.static('public'));
+    webserver.use('/orator', express.static('public'));
+    webserver.use('/orator', router);
 
     var server = http.createServer(webserver);
 
