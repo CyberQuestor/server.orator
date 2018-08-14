@@ -1,6 +1,9 @@
 const command_request = require('request');
 const command_util = require('util');
 
+const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__dirname + __filename);
+const ResponseCode = reqlib('/utilities/interpreter/rode.js').fetchResponseCode();
+
 // This function will be run whenever link command is accessed
 module.exports = function unlinkCommand (msbotController, bot, message, arguments) {
 	// Bot code here - check command structure
@@ -33,11 +36,33 @@ function getBearer(message, cb){
 
 function deleteUnlink(err, result) {
 
+  let commonProvider = require(__dirname + '/../providers/common_provider.js');
+
+  if(err) {
+    console.log(err);
+    commonProvider.respondNotLinked(bot, message);
+    return;
+  }
+
+  if(!result) {
+    commonProvider.respondNotLinked(bot, message);
+    return;
+  }
+
+  logger.silly("And the token for unlinking would be: " + result);
+
   let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/alias/' + message.user;
+  let postBearer = 'Bearer ' + result;
+
+  let postHeaders = {
+      'Accept': 'application/json',
+      'Authorization': postBearer
+    };
 
     command_request.delete({
   		url: postURL,
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: postHeaders
   	}, function deleteComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
         respondUnableToLink(bot, message);

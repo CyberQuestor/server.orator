@@ -60,6 +60,15 @@ module.exports = {
     return aliasType;
   },
 
+  // responds with not linked text
+  respondNotLinked: function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
+    bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_not_linked', locale:message.haystack_locale}));
+  },
+
   // responds with usage text
   respondUnsupportedChannel: function () {
     bot.reply(message, {
