@@ -114,7 +114,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, bot.i18n.__({phrase:'unlink_command_unable_to_comply', locale:message.haystack_locale}));
+      bot.reply(message, bot.i18n.__({phrase:'unlink_provider_parting_unable', locale:message.haystack_locale}));
     }
 
 };
