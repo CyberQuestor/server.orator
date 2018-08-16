@@ -251,11 +251,17 @@ module.exports = function welcome(controller) {
                   type: "imBack",
                   title: bot.i18n.__({phrase:'common_button_title_failsafe_what', locale:convo.vars.haystack_locale}),
                   value: bot.i18n.__({phrase:'common_button_payload_failsafe_what', locale:convo.vars.haystack_locale})
-                }
+                },
+                {
+                    type: "imBack",
+                    title: bot.i18n.__({phrase:'common_button_title_failsafe_help', locale:convo.vars.haystack_locale}),
+                    value: bot.i18n.__({phrase:'common_button_payload_failsafe_help', locale:convo.vars.haystack_locale})
+                  }
               ]
             }
           }]
         });
+        convo.say(bot.i18n.__({phrase:'common_message_failsafe_help', locale:convo.vars.haystack_locale}));
 
       });
     } else {
