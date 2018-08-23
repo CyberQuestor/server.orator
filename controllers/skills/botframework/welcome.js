@@ -95,12 +95,12 @@ module.exports = function welcome(controller) {
             buttons: [{
                 type: "openUrl",
                 title: bot.i18n.__({phrase:'welcome_message_sign_in', locale:convo.vars.haystack_locale}),
-                value: process.env.haystack_orator_ui_signin_url
+                value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_signin_url
               },
               {
                 type: "openUrl",
                 title: bot.i18n.__({phrase:'welcome_message_join_us', locale:convo.vars.haystack_locale}),
-                value: process.env.haystack_orator_ui_joinus_url
+                value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_joinus_url
               }
             ]
           }
@@ -127,7 +127,7 @@ module.exports = function welcome(controller) {
             buttons: [{
               type: "openUrl",
               title: bot.i18n.__({phrase:'welcome_button_people_haystack', locale:convo.vars.haystack_locale}),
-              value: process.env.haystack_orator_ui_people_url
+              value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_people_url
             }]
           }
         }]
@@ -153,7 +153,7 @@ module.exports = function welcome(controller) {
             buttons: [{
               type: "openUrl",
               title: bot.i18n.__({phrase:'welcome_button_legal_haystack', locale:convo.vars.haystack_locale}),
-              value: process.env.haystack_orator_ui_legal_url
+              value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_legal_url
             }]
           }
         }]
@@ -179,7 +179,7 @@ module.exports = function welcome(controller) {
             buttons: [{
               type: "openUrl",
               title: bot.i18n.__({phrase:'welcome_button_wealth_haystack', locale:convo.vars.haystack_locale}),
-              value: process.env.haystack_orator_ui_wealth_url
+              value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_wealth_url
             }]
           }
         }]
