@@ -69,7 +69,7 @@ module.exports = {
     bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_not_linked', locale:message.haystack_locale}));
   },
 
-  // responds with usage text
+  // responds with unsupported text
   respondUnsupportedChannel: function () {
     bot.reply(message, {
       type: "typing"
