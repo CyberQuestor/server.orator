@@ -39,6 +39,10 @@ module.exports = function() {
        bot_options.json_file_store = __dirname + '/../.data/db/'; // store user data in a simple JSON format
    }
 
+   if (process.env.msbothostname) {
+     bot_options.hostname = process.env.msbothostname;
+   }
+
    var controller = msBotkit.botframeworkbot(bot_options);
 
   var bot = controller.spawn({

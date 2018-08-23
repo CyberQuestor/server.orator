@@ -16,7 +16,10 @@ module.exports = function(msbotControllerComplex) {
     version: '1.1.1.0'
   });
 
-  restServer.listen(8089, function() {
+  let restPort = process.env.trumpetport ? process.env.trumpetport : 8089;
+  let restHostname = process.env.trumpethostname ? process.env.trumpethostname : 8089;
+
+  restServer.listen(restPort, restHostname, function() {
     console.log('%s listening at %s', restServer.name, restServer.url);
   });
 
