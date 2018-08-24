@@ -81,8 +81,8 @@ module.exports = {
   askContactToLinkHaystack: function (bot, message) {
     // lets build the link-up flow
     let urlParameter = "";
-    let signInURL = process.env.haystack_orator_ui_signin_url;
-    let signUpURL = process.env.haystack_orator_ui_joinus_url;
+    let signInURL = process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_signin_url;
+    let signUpURL = process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_joinus_url;
     let aliasType = "";
 
     try {
@@ -94,8 +94,8 @@ module.exports = {
         signUpURL = signUpURL + urlParameter;
       }
     } catch(e) {
-      signInURL = process.env.haystack_orator_ui_signin_url;
-      signUpURL = process.env.haystack_orator_ui_joinus_url;
+      signInURL = process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_signin_url;
+      signUpURL = process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_joinus_url;
     }
 
     if(aliasType){
