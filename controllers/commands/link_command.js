@@ -23,16 +23,21 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
 	}
 
   let aliasType = 'SkypeBotLink';
+  let clientType = 'x-client-mca-skype';
+
   if(message.address && message.address.channelId) {
     switch(message.address.channelId){
       case 'skype':
       aliasType = 'SkypeBotLink';
+      clientType = 'x-client-mca-skype';
       break;
       case 'telegram':
       aliasType = 'TelegramBotLink';
+      clientType = 'x-client-mca-telegram';
       break;
       default:
       aliasType = '';
+      clientType = '';
       break;
     }
   }
@@ -57,6 +62,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
     'otp': activationCode,
     'alias': message.user,
     'channel': aliasType,
+    'client': clientType,
     'prefix': JSON.stringify(storagePrefix)
   };
 
@@ -67,7 +73,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
       form: postFormData
   	}, function postComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
-        bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP link phrase and it is not expired.');
+        bot.reply(message, bot.i18n.__({phrase:'link_command_unable_to_link', locale:message.haystack_locale}));
     		return;
       }
   		try {
@@ -75,10 +81,10 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
         // body is already object, no need for JSON.parse(body);
 
         // valid token available but consumer should ideally notify user
-        bot.reply(message, 'Excellent!');
+        bot.reply(message, bot.i18n.__({phrase:'link_command_excellent', locale:message.haystack_locale}));
 
   		} catch(e) {
-  			bot.reply(message, 'Unable to complete linking. Make sure you copied the right OTP and it is not expired.');
+  			bot.reply(message, bot.i18n.__({phrase:'link_command_unable_to_link', locale:message.haystack_locale}));
   		}
   	});
 
@@ -88,7 +94,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
         type: "typing"
       });
 
-      bot.reply(message, 'Usage: !link [primary_email] with OTP [generated_otp]');
+      bot.reply(message, bot.i18n.__({phrase:'link_command_respond_usage', locale:message.haystack_locale}));
     }
 
     // responds with usage text
@@ -97,7 +103,7 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
         type: "typing"
       });
 
-      bot.reply(message, 'This channel is not yet supported.');
+      bot.reply(message, bot.i18n.__({phrase:'link_command_respond_unsupported', locale:message.haystack_locale}));
     }
 
 };

@@ -1,26 +1,19 @@
 const command_request = require('request');
 
 // This function will be run whenever connect command is accessed
-// Usage: !connect with [alias]
+// Usage: !profile haystack
 module.exports = function connectCommand (msbotController, bot, message, arguments) {
 	// Bot code here - check command structure
-  let withWord = arguments[0];
-  let friendsAlias = arguments[1];
+  let haystackWord = arguments[0];
 
-  if (!friendsAlias || !withWord) {
+  if (!haystackWord || haystackWord !== 'haystack' ) {
     respondUsage(bot, message);
     return;
   }
 
-  withWord = withWord.toLowerCase();
-  friendsAlias = friendsAlias.toLowerCase();
+  haystackWord = haystackWord.toLowerCase();
 
-  if (withWord === 'help') {
-    respondUsage(bot, message);
-		return;
-	}
-
-  if (withWord !== 'with') {
+  if (haystackWord === 'help') {
     respondUsage(bot, message);
 		return;
 	}
@@ -31,12 +24,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
     return;
   }
 
-  let possibleFriends = [];
-  let friendToAdd = {};
-  friendToAdd.primaryEmail = friendsAlias;
-  possibleFriends.push(friendToAdd);
-
-  getBearer(message, postConnect);
+  getBearer(message, getProfile);
 
   function getBearer(message, cb){
     let request_cache_module = require(__dirname + '/../../components/request_cache.js')();
@@ -44,7 +32,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
     request_cache_module.quit();
   }
 
-  function postConnect(err, result) {
+  function getProfile(err, result) {
     if(err) {
       console.log(err);
       respondNotLinked(bot, message);
@@ -56,21 +44,19 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
       return;
     }
 
-    let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/mynetwork';
-    let postBody = JSON.stringify(possibleFriends);
+    let storageComplex = {};
+    storageComplex.requestOptions = {};
+    storageComplex.requestOptions.uri = process.env.haystack_application_url + '/profiles/' + haystackUserId;
     let postBearer = 'Bearer ' + result;
 
-    let postHeaders = {
+    storageComplex.requestOptions.headers = {
         'Accept': 'application/json',
         'Authorization': postBearer
       };
 
-    command_request.post({
-      url: postURL,
-      method: 'POST',
-      headers: postHeaders,
-      json: possibleFriends
-    }, function postComplete(error, response, body) {
+      storageComplex.requestOptions.headers.method = 'GET';
+
+    command_request.get(storageComplex.requestOptions, function postComplete(error, response, body) {
       if (error || response.statusCode !== 200) {
         respondUnableToConnect(bot, message);
         return;
@@ -78,7 +64,8 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
       try {
         // user profile
         // body is already object, no need for JSON.parse(body);
-        bot.reply(message, bot.i18n.__({phrase:'connect_command_now_connected', locale:message.haystack_locale}, friendsAlias));
+        let parsedBody = JSON.parse(body);
+        bot.reply(message, "I found your name as: " + parsedBody.firstName + parsedBody.lastName);
 
       } catch(e) {
         respondUnableToConnect(bot, message);
@@ -92,7 +79,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
         type: "typing"
       });
 
-      bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_unable_to_connect', locale:message.haystack_locale}));
+      bot.reply(message, "no profile!");
     }
 
     // responds with usage text
@@ -101,7 +88,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
         type: "typing"
       });
 
-      bot.reply(message, bot.i18n.__({phrase:'connect_command_respond_usage', locale:message.haystack_locale}));
+      bot.reply(message, "Usage: !showprofilename haystack");
     }
 
     // responds with usage text
@@ -116,7 +103,7 @@ module.exports = function connectCommand (msbotController, bot, message, argumen
     // add user record in to DB
     function getHaystackUserId(message) {
       if(message.haystack_data) {
-        return message.haystack_data.haystack_id;
+        return message.haystack_data.id;
       }
     }
 

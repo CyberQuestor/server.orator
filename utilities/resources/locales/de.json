@@ -1,0 +1,10 @@
+{
+  "welcome_message_hello": "Hallo! Ich bin ein Kollektiv von Haystack.One Sentient Bots (Sie können mich HOBS nennen).",
+  "welcome_message_new_here": "Wenn du hier neu bist.",
+  "welcome_message_check_out": "Schau dir an, worüber ich bin.",
+  "welcome_button_title_what": "Was bist du?",
+  "welcome_button_payload_what": "was bist du?",
+  "welcome_button_title_ready": "Ich bin bereit, mich anzumelden",
+  "welcome_button_payload_ready": "Lass uns anfangen zu benutzen!"
+
+}

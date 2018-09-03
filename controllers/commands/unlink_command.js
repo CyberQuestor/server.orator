@@ -1,12 +1,15 @@
 const command_request = require('request');
 const command_util = require('util');
 
+const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__dirname + __filename);
+const ResponseCode = reqlib('/utilities/interpreter/rode.js').fetchResponseCode();
+
 // This function will be run whenever link command is accessed
-module.exports = function linkCommand (msbotController, bot, message, arguments) {
+module.exports = function unlinkCommand (msbotController, bot, message, arguments) {
 	// Bot code here - check command structure
   let haystackWord = arguments[0];
 
-  if (!haystackWord) {
+  if (!haystackWord || haystackWord !== 'haystack' ) {
     respondUsage(bot, message);
     return;
   }
@@ -33,11 +36,33 @@ function getBearer(message, cb){
 
 function deleteUnlink(err, result) {
 
+  let commonProvider = require(__dirname + '/../providers/common_provider.js');
+
+  if(err) {
+    console.log(err);
+    commonProvider.respondNotLinked(bot, message);
+    return;
+  }
+
+  if(!result) {
+    commonProvider.respondNotLinked(bot, message);
+    return;
+  }
+
+  logger.silly("And the token for unlinking would be: " + result);
+
   let postURL = process.env.haystack_orator_bot_application_url + '/checkout/' + haystackUserId + '/alias/' + message.user;
+  let postBearer = 'Bearer ' + result;
+
+  let postHeaders = {
+      'Accept': 'application/json',
+      'Authorization': postBearer
+    };
 
     command_request.delete({
   		url: postURL,
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: postHeaders
   	}, function deleteComplete(error, response, body) {
   		if (error || response.statusCode !== 200) {
         respondUnableToLink(bot, message);
@@ -51,7 +76,7 @@ function deleteUnlink(err, result) {
         storagePrefix.user=message.user;
         storagePrefix.is_acknowledge = true;
 
-        unlinkModule(msbotController, bot, storagePrefix);
+        unlinkModule(msbotController, bot, storagePrefix, message.haystack_locale);
   		} catch(e) {
   			respondUnableToLink(bot, message);
   		}
@@ -71,7 +96,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, 'Usage: !unlink haystack');
+      bot.reply(message, bot.i18n.__({phrase:'unlink_command_respond_usage', locale:message.haystack_locale}));
     }
 
     // responds with not linked text
@@ -80,7 +105,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, 'It appears that you are not linked yet. Visit Haystack.One to link to this channel.');
+      bot.reply(message, bot.i18n.__({phrase:'unlink_command_respond_not_linked', locale:message.haystack_locale}));
     }
 
     // responds with not linked text
@@ -89,7 +114,7 @@ function deleteUnlink(err, result) {
         type: "typing"
       });
 
-      bot.reply(message, 'Unable to complete unlinking. If issue persists, you can remove HOB from your contact list.');
+      bot.reply(message, bot.i18n.__({phrase:'unlink_provider_parting_unable', locale:message.haystack_locale}));
     }
 
 };
