@@ -1,11 +1,10 @@
 // Set all your environment variables
 global.reqlib = require('app-root-path').require;
-// enable only after revisions
-//const resuscitate = require(__dirname + '/utilities/interpreter/resuscitate.js');
+
+const logger_init = require(__dirname + '/utilities/interpreter/logger.js').initializeLogger();
 const environment = require(__dirname + '/utilities/interpreter/environment.js');
 const unhandled = require(__dirname + '/utilities/interpreter/unhandled.js');
 const access = require(__dirname + '/utilities/interpreter/access.js');
-const logger_init = require(__dirname + '/utilities/interpreter/logger.js').initializeLogger();
 
 const logger = reqlib('/utilities/interpreter/logger.js').fetchLogger(__dirname + __filename);
 const ResponseCode = reqlib('/utilities/interpreter/rode.js').fetchResponseCode();
