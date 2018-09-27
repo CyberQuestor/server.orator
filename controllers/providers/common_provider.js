@@ -2,6 +2,12 @@ const btoa = require('btoa');
 const unescape = require('unescape');
 
 /*
+* Steps to take to provision a bot;
+* 1 - at common_provider.js i.e. this file update verifyChannelValidity to include your channel
+* 2 - Update server.model com.hs.haystack.models.common.profile.UserAliasType to support your new bot link
+*/
+
+/*
 * Aids in providing a host of common utility methods
 */
 module.exports = {
@@ -46,6 +52,9 @@ module.exports = {
         break;
         case 'telegram':
         aliasType = 'TelegramBotLink';
+        break;
+        case 'facebook':
+        aliasType = 'FacebookBotLink';
         break;
         default:
         aliasType = '';
