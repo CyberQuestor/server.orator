@@ -5,6 +5,7 @@ const unescape = require('unescape');
 * Steps to take to provision a bot;
 * 1 - at common_provider.js i.e. this file update verifyChannelValidity to include your channel
 * 2 - Update server.model com.hs.haystack.models.common.profile.UserAliasType to support your new bot link
+* 3 - Go to link_command.js and update support for new channel by defining new client id/ alias type
 */
 
 /*
