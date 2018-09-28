@@ -35,6 +35,10 @@ module.exports = function linkCommand (msbotController, bot, message, arguments)
       aliasType = 'TelegramBotLink';
       clientType = 'x-client-mca-telegram';
       break;
+      case 'facebook':
+      aliasType = 'FacebookBotLink';
+      clientType = 'x-client-mca-facebook';
+      break;
       default:
       aliasType = '';
       clientType = '';
