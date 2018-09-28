@@ -35,8 +35,8 @@ module.exports = function welcome(controller) {
             subtitle: bot.i18n.__({phrase:'welcome_message_check_out', locale:convo.vars.haystack_locale}),
             buttons: [{
                 type: "imBack",
-                title: bot.i18n.__({phrase:'welcome_button_title_what', locale:convo.vars.haystack_locale}),
-                value: bot.i18n.__({phrase:'welcome_button_payload_what', locale:convo.vars.haystack_locale})
+                title: bot.i18n.__({phrase:'welcome_button_title_what_haystack', locale:convo.vars.haystack_locale}),
+                value: bot.i18n.__({phrase:'welcome_button_payload_what_haystack', locale:convo.vars.haystack_locale})
               }
             ]
           }
@@ -188,8 +188,62 @@ module.exports = function welcome(controller) {
     });
   });
 
+  controller.hears('platform', ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
+    bot.startConversation(message, function(err, convo) {
+      // convo.say('You can check out wealth theme over [here!](https://haystack.one/haystack/home/solutions#wealth)');
+      convo.setVar("haystack_locale",message.haystack_locale);
+
+      convo.say({
+        attachments: [{
+          contentType: 'application/vnd.microsoft.card.hero',
+          content: {
+            title: bot.i18n.__({phrase:'welcome_message_platform_know_title', locale:convo.vars.haystack_locale}),
+            subtitle: bot.i18n.__({phrase:'welcome_message_platform_know', locale:convo.vars.haystack_locale}),
+            buttons: [{
+              type: "openUrl",
+              title: bot.i18n.__({phrase:'welcome_button_platform_haystack', locale:convo.vars.haystack_locale}),
+              value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_revamp_platform_url
+            }]
+          }
+        }]
+      });
+
+    });
+  });
+
+  controller.hears(['industries', 'focus'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
+    bot.reply(message, {
+      type: "typing"
+    });
+
+    bot.startConversation(message, function(err, convo) {
+      // convo.say('You can check out wealth theme over [here!](https://haystack.one/haystack/home/solutions#wealth)');
+      convo.setVar("haystack_locale",message.haystack_locale);
+
+      convo.say({
+        attachments: [{
+          contentType: 'application/vnd.microsoft.card.hero',
+          content: {
+            title: bot.i18n.__({phrase:'welcome_message_focus_industries', locale:convo.vars.haystack_locale}),
+            subtitle: bot.i18n.__({phrase:'welcome_message_focus_industries_know', locale:convo.vars.haystack_locale}),
+            buttons: [{
+              type: "openUrl",
+              title: bot.i18n.__({phrase:'welcome_button_focus_industries_haystack', locale:convo.vars.haystack_locale}),
+              value: process.env.haystack_orator_ui_home + process.env.haystack_orator_ui_revamp_focus_industries_url
+            }]
+          }
+        }]
+      });
+
+    });
+  });
+
   // set up a menu thread which other threads can point at.
-  controller.hears(['what are you'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
+  controller.hears(['what are you', 'haystack', 'what is haystack'], ['message_received', 'direct_message'], custom_haystack_link_hear_middleware, function(bot, message) {
     bot.reply(message, {
       type: "typing"
     });
@@ -197,30 +251,25 @@ module.exports = function welcome(controller) {
     bot.startConversation(message, function(err, convo) {
       convo.setVar("haystack_locale",message.haystack_locale);
 
-      convo.say(bot.i18n.__({phrase:'welcome_message_platform', locale:convo.vars.haystack_locale}, process.env.haystack_orator_ui_home));
+      convo.say(bot.i18n.__({phrase:'welcome_message_platform_revamp', locale:convo.vars.haystack_locale}, process.env.haystack_orator_ui_home));
 
-      convo.say(bot.i18n.__({phrase:'welcome_message_reinvent', locale:convo.vars.haystack_locale}));
+      convo.say(bot.i18n.__({phrase:'welcome_message_relevant_actionable', locale:convo.vars.haystack_locale}));
 
       convo.say({
         attachments: [{
           contentType: 'application/vnd.microsoft.card.hero',
           content: {
-            title: bot.i18n.__({phrase:'welcome_message_know_themes', locale:convo.vars.haystack_locale}),
-            subtitle: bot.i18n.__({phrase:'welcome_message_all_themes', locale:convo.vars.haystack_locale}),
+            title: bot.i18n.__({phrase:'welcome_message_know_more', locale:convo.vars.haystack_locale}),
+            subtitle: bot.i18n.__({phrase:'welcome_message_all_more', locale:convo.vars.haystack_locale}),
             buttons: [{
                 type: "imBack",
-                title: bot.i18n.__({phrase:'welcome_button_title_wealth', locale:convo.vars.haystack_locale}),
-                value: bot.i18n.__({phrase:'welcome_button_payload_wealth', locale:convo.vars.haystack_locale})
+                title: bot.i18n.__({phrase:'welcome_button_title_platform', locale:convo.vars.haystack_locale}),
+                value: bot.i18n.__({phrase:'welcome_button_payload_platform', locale:convo.vars.haystack_locale})
               },
               {
                 type: "imBack",
-                title: bot.i18n.__({phrase:'welcome_button_title_people', locale:convo.vars.haystack_locale}),
-                value: bot.i18n.__({phrase:'welcome_button_payload_people', locale:convo.vars.haystack_locale})
-              },
-              {
-                type: "imBack",
-                title: bot.i18n.__({phrase:'welcome_button_title_legal', locale:convo.vars.haystack_locale}),
-                value: bot.i18n.__({phrase:'welcome_button_payload_legal', locale:convo.vars.haystack_locale})
+                title: bot.i18n.__({phrase:'welcome_button_title_focus_industries', locale:convo.vars.haystack_locale}),
+                value: bot.i18n.__({phrase:'welcome_button_payload_focus_industries', locale:convo.vars.haystack_locale})
               }
             ]
           }
